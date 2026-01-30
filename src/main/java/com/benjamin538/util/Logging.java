@@ -1,4 +1,4 @@
-package com.benjamin538.util;
+package com.benjamin538.Util;
 
 import java.util.Scanner;
 
