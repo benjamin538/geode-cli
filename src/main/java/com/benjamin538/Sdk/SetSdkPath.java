@@ -10,6 +10,7 @@ import com.benjamin538.Util.Logging;
 // picocli
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Parameters;
+import picocli.CommandLine.Option;
 
 @Command(
     name = "set-path",
@@ -17,6 +18,8 @@ import picocli.CommandLine.Parameters;
 )
 public class SetSdkPath implements Runnable {
     private Logging logger = new Logging();
+    @Option(names = {"-h", "--help"}, description = "Print help", usageHelp = true)
+    boolean help;
     @Parameters(description = "New SDK Path")
     String path;
     @Override
