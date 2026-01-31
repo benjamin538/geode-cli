@@ -3,12 +3,12 @@ package com.benjamin538.sdk;
 // file stuff
 import java.nio.file.Path;
 import java.nio.file.Paths;
-
-import com.benjamin538.util.Logging;
-
 import java.nio.file.Files;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
+
+// da logging
+import com.benjamin538.util.Logging;
 
 // picocli
 import picocli.CommandLine.Command;

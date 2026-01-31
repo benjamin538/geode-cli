@@ -9,6 +9,10 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.io.IOException;
+import java.io.File;
+
+// git
+import org.eclipse.jgit.api.Git;
 
 // picocli
 import picocli.CommandLine.Command;
@@ -35,26 +39,23 @@ public class InstallSdk implements Runnable {
         try {
             Files.createDirectories(newPath);
         } catch(IOException ex) {
-            logger.fatal("Could not install SDK: " + ex.getClass().getSimpleName());
+            logger.fatal("Could not install SDK: " + ex.getMessage());
         }
+        LoadingAnim anim = new LoadingAnim();
         try {
             logger.info("Downloading SDK");
-            ProcessBuilder builder = new ProcessBuilder("git", "clone", "https://github.com/geode-sdk/geode.git", path);
-            Process process = builder.start();
-            LoadingAnim anim = new LoadingAnim();
             Thread.startVirtualThread(anim);
-            int code = process.waitFor();
-            anim.stop();
-            if (code != 0) {
-                logger.fatal("Could not install SDK: git exit code is " + code);
-            }
+            Git.cloneRepository().setURI("https://github.com/geode-sdk/geode.git").setDirectory(new File(path)).call();
             SetSdkPath setsdk = new SetSdkPath();
             setsdk.setPath(newPath.toAbsolutePath().toString());
+            anim.stop();
             logger.done("Successfully installed SDK");
             logger.info("Please restart your command line to have the GEODE_SDK enviroment variable set.");
             logger.info("Use `geode sdk install-binaries` to install pre-built binaries");
         } catch(Exception ex) {
             logger.fatal("Could not install SDK: " + ex.getMessage());
+        } finally {
+            anim.stop();
         }
     }
 }

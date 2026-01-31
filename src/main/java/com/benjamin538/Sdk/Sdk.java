@@ -14,11 +14,12 @@ import picocli.CommandLine.Option;
         UninstallSdk.class,
         InstallSdk.class,
         SetSdkPath.class,
-        SdkVersion.class
+        SdkVersion.class,
+        UpdateSdk.class
     }
 )
 public class Sdk implements Runnable {
-    @Option(names = {"-h", "--help"}, usageHelp = true)
+    @Option(names = {"-h", "--help"}, usageHelp = true, description = "Print this message or the help of the given subcommand(s)")
     boolean help;
     @Override
     public void run() {

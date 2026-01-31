@@ -8,7 +8,7 @@ public class LoadingAnim implements Runnable{
     @Override
     public void run() {
         char block = '█';
-        int pos = 2;
+        int pos = 1;
         StringBuilder builder = new StringBuilder("[       ]");
         while (running) {
             if (pos == 6) {
@@ -22,6 +22,7 @@ public class LoadingAnim implements Runnable{
             try{
                 Thread.sleep(Duration.ofMillis(500));
             } catch (Exception ex) {
+                stop();
                 System.err.println(ex.getMessage());
             }
         }
