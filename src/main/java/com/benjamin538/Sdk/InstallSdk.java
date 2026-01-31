@@ -1,10 +1,8 @@
-package com.benjamin538.Sdk;
+package com.benjamin538.sdk;
 
 // animation
 import com.benjamin538.LoadingAnim;
-
-// da logging
-import com.benjamin538.Util.Logging;
+import com.benjamin538.util.Logging;
 
 // file stuff
 import java.nio.file.Files;
@@ -50,6 +48,8 @@ public class InstallSdk implements Runnable {
             if (code != 0) {
                 logger.fatal("Could not install SDK: git exit code is " + code);
             }
+            SetSdkPath setsdk = new SetSdkPath();
+            setsdk.setPath(newPath.toAbsolutePath().toString());
             logger.done("Successfully installed SDK");
             logger.info("Please restart your command line to have the GEODE_SDK enviroment variable set.");
             logger.info("Use `geode sdk install-binaries` to install pre-built binaries");

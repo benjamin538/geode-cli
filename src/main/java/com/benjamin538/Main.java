@@ -1,12 +1,11 @@
 package com.benjamin538;
 
+import com.benjamin538.sdk.Sdk;
+
 // picocli
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.HelpCommand;
-
-// commands
-import com.benjamin538.Sdk.Sdk;
 
 @Command(
     name = "geode",

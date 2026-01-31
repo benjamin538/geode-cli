@@ -1,4 +1,4 @@
-package com.benjamin538.Sdk;
+package com.benjamin538.sdk;
 
 // picocli
 import picocli.CommandLine;
@@ -13,7 +13,8 @@ import picocli.CommandLine.Option;
         HelpCommand.class,
         UninstallSdk.class,
         InstallSdk.class,
-        SetSdkPath.class
+        SetSdkPath.class,
+        SdkVersion.class
     }
 )
 public class Sdk implements Runnable {
@@ -21,6 +22,6 @@ public class Sdk implements Runnable {
     boolean help;
     @Override
     public void run() {
-        CommandLine.usage(this, System.out);
+        CommandLine.usage(this, System.err);
     }
 }

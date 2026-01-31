@@ -1,14 +1,14 @@
-package com.benjamin538.Sdk;
+package com.benjamin538.sdk;
 
 // file stuff
 import java.io.IOException;
+import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.stream.Stream; // for recursive deletion
+import java.util.Comparator;
 
-// da logging
-import com.benjamin538.Util.Logging;
+import com.benjamin538.util.Logging;
 
 // picocli
 import picocli.CommandLine.Command;
@@ -33,15 +33,8 @@ public class UninstallSdk implements Runnable{
                 logger.fail("Aboritng");
                 return;
             }
-            Stream<Path> walk = Files.walk(path);
-            walk.forEach(file -> {
-                try {
-                    Files.delete(file);
-                } catch(IOException ex) {
-                    ;
-                }
-            });
-            walk.close();
+            Files.walk(path).sorted(Comparator.reverseOrder()).map(Path::toFile).filter(item -> !item.getPath().equals(System.getenv("GEODE_SDK"))).forEach(File::delete);
+            Files.delete(path);
         } catch(IOException ex) {
             logger.fatal("Unable to uninstall SDK: " + ex.getMessage());
         } catch(NullPointerException ex) {

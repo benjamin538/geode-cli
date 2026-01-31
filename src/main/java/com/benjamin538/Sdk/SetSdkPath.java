@@ -1,11 +1,10 @@
-package com.benjamin538.Sdk;
+package com.benjamin538.sdk;
 
 // file stuff
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-// da logging
-import com.benjamin538.Util.Logging;
+import com.benjamin538.util.Logging;
 
 // picocli
 import picocli.CommandLine.Command;
@@ -39,5 +38,9 @@ public class SetSdkPath implements Runnable {
             // TODO: Linux support
             logger.info("Currently supporting only Windows");
         }
+    }
+
+    public void setPath(String newPath) {
+        path = newPath;
     }
 }
