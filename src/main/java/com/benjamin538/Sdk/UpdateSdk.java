@@ -17,6 +17,7 @@ import org.eclipse.jgit.storage.file.FileRepositoryBuilder;
 
 // picocli
 import picocli.CommandLine.Command;
+import picocli.CommandLine.Option;
 
 @Command(
     name = "update",
@@ -24,11 +25,13 @@ import picocli.CommandLine.Command;
 )
 public class UpdateSdk implements Runnable {
     private Logging logger = new Logging();
+    @Option(names = {"-h", "--help"}, description = "Print help", usageHelp = true)
+    boolean help;
     @Override
     public void run() {
         LoadingAnim anim = new LoadingAnim();
         try {
-            File path = new File(System.getenv("GEODE_SDK") + "\\.git");
+            File path = new File(System.getenv("GEODE_SDK"), ".git");
             logger.info("Updating SDK");
             Repository repository = new FileRepositoryBuilder().setGitDir(path).build();
             Git git = new Git(repository);
@@ -36,11 +39,11 @@ public class UpdateSdk implements Runnable {
             Thread.startVirtualThread(anim);
             command.call();
             git.close();
+            anim.stop();
             logger.done("Successfully updated SDK");
         } catch(Exception ex) {
-            logger.fatal(ex.getMessage());
-        } finally {
             anim.stop();
+            logger.fatal(ex.getMessage());
         }
     }
 }

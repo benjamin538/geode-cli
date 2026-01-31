@@ -27,10 +27,6 @@ public class InstallSdk implements Runnable {
     private Logging logger = new Logging();
     @Option(names = {"-h", "--help"}, description = "Print help", usageHelp = true)
     boolean help;
-    @Option(names = {"--reinstall"}, description = "Uninstall exising SDK and reinstall")
-    boolean reinstall;
-    @Option(names = {"--force"}, description = "Force install, even if another location exists")
-    boolean force;
     @Parameters(description = "Path to install")
     String path;
     @Override
@@ -53,9 +49,8 @@ public class InstallSdk implements Runnable {
             logger.info("Please restart your command line to have the GEODE_SDK enviroment variable set.");
             logger.info("Use `geode sdk install-binaries` to install pre-built binaries");
         } catch(Exception ex) {
-            logger.fatal("Could not install SDK: " + ex.getMessage());
-        } finally {
             anim.stop();
+            logger.fatal("Could not install SDK: " + ex.getMessage());
         }
     }
 }

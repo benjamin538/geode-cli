@@ -13,21 +13,27 @@
         <maven.compiler.target>25</maven.compiler.target>
     </properties>
     <dependencies>
-        <dependency>
-            <groupId>info.picocli</groupId>
-            <artifactId>picocli</artifactId>
-            <version>4.7.7</version>
-        </dependency>
-        <dependency>
-          <groupId>org.eclipse.jgit</groupId>
-          <artifactId>org.eclipse.jgit</artifactId>
-          <version>4.6.0.201612231935-r</version>
-        </dependency>
-        <dependency>
-          <groupId>org.slf4j</groupId> <!-- to remove jgit warning -->
-          <artifactId>slf4j-nop</artifactId>
-          <version>1.7.30</version>
-        </dependency>
+      <dependency>
+          <groupId>info.picocli</groupId>
+          <artifactId>picocli</artifactId>
+          <version>4.7.7</version>
+      </dependency>
+      <dependency>
+        <groupId>org.eclipse.jgit</groupId>
+        <artifactId>org.eclipse.jgit</artifactId>
+        <version>4.6.0.201612231935-r</version>
+      </dependency>
+      <dependency>
+        <groupId>org.slf4j</groupId> <!-- to remove jgit warning -->
+        <artifactId>slf4j-nop</artifactId>
+        <version>1.7.30</version>
+      </dependency>
+      <dependency>
+          <groupId>org.json</groupId>
+          <artifactId>json</artifactId>
+          <version>20251224</version>
+          <scope>compile</scope>
+      </dependency>
     </dependencies>
     <build>
     <plugins>

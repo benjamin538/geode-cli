@@ -25,10 +25,10 @@ public class SdkVersion implements Runnable {
     @Override
     public void run() {
         try {
-            Path path = Paths.get(System.getenv("GEODE_SDK"));
-            path = Paths.get(path + "\\VERSION");
+            Path path = Paths.get(System.getenv("GEODE_SDK"), "VERSION");
             InputStream stream = Files.newInputStream(path);
-            logger.info("Geode SDK Version: " + new String(stream.readAllBytes(), StandardCharsets.UTF_8));
+            String version = new String(stream.readAllBytes(), StandardCharsets.UTF_8).replace("\r\n", " ");
+            logger.info("Geode SDK Version: " + version);
             stream.close();
         } catch(Exception ex) {
             logger.fatal("Unable to get SDK version: " + ex.getMessage());

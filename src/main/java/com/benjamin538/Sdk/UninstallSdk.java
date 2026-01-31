@@ -43,6 +43,7 @@ public class UninstallSdk implements Runnable{
                 file.delete();
             });
             Files.delete(path);
+            anim.stop();
         } catch(IOException ex) {
             logger.fatal("Unable to uninstall SDK: " + ex.getMessage());
         } catch(NullPointerException ex) {

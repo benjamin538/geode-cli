@@ -15,7 +15,8 @@ import picocli.CommandLine.Option;
         InstallSdk.class,
         SetSdkPath.class,
         SdkVersion.class,
-        UpdateSdk.class
+        UpdateSdk.class,
+        InstallBinaries.class
     }
 )
 public class Sdk implements Runnable {
