@@ -6,17 +6,14 @@ import picocli.CommandLine.Command;
 import picocli.CommandLine.HelpCommand;
 import picocli.CommandLine.Option;
 
-// commands
-import com.benjamin538.Sdk.UninstallSdk;
-import com.benjamin538.Sdk.InstallSdk;
-
 @Command(
     name = "sdk",
     description = "Options for installing & managing the Geode SDK",
     subcommands = {
         HelpCommand.class,
         UninstallSdk.class,
-        InstallSdk.class
+        InstallSdk.class,
+        SetSdkPath.class
     }
 )
 public class Sdk implements Runnable {

@@ -1,9 +1,10 @@
 package com.benjamin538;
 
+// for cooldown
 import java.time.Duration;
 
 public class LoadingAnim implements Runnable{
-    public boolean running = true;
+    private volatile boolean running = true;
     @Override
     public void run() {
         char block = '█';
@@ -20,9 +21,14 @@ public class LoadingAnim implements Runnable{
             System.out.print("\r" + builder.toString());
             try{
                 Thread.sleep(Duration.ofMillis(500));
-             } catch (Exception ex) {
+            } catch (Exception ex) {
                 System.err.println(ex.getMessage());
-             }
+            }
         }
+    }
+
+    public void stop() {
+        System.out.print("\r");
+        running = false;
     }
 }
