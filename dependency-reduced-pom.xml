@@ -16,6 +16,15 @@
               <goal>shade</goal>
             </goals>
             <configuration>
+              <configuration>
+                <annotationProcessorPaths>
+                  <path>
+                    <groupId>info.picocli</groupId>
+                    <artifactId>picocli-codegen</artifactId>
+                    <version>4.7.6</version>
+                  </path>
+                </annotationProcessorPaths>
+              </configuration>
               <filters>
                 <filter>
                   <artifact>*:*</artifact>
@@ -37,6 +46,30 @@
       </plugin>
     </plugins>
   </build>
+  <profiles>
+    <profile>
+      <id>native</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.graalvm.buildtools</groupId>
+            <artifactId>native-maven-plugin</artifactId>
+            <version>0.10.5</version>
+            <extensions>true</extensions>
+            <executions>
+              <execution>
+                <id>build-native</id>
+                <phase>package</phase>
+                <goals>
+                  <goal>compile</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
   <properties>
     <maven.compiler.target>25</maven.compiler.target>
     <maven.compiler.source>25</maven.compiler.source>

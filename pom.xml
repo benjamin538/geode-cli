@@ -7,10 +7,38 @@
     <groupId>com.benjamin538</groupId>
     <artifactId>geode</artifactId>
     <version>1.0</version>
-
+    <profiles>
+      <profile>
+        <id>native</id>
+        <build>
+          <plugins>
+            <plugin>
+              <groupId>org.graalvm.buildtools</groupId>
+              <artifactId>native-maven-plugin</artifactId>
+              <version>0.10.5</version>
+              <extensions>true</extensions>
+              <executions>
+                <execution>
+                <id>build-native</id>
+                  <goals>
+                    <goal>compile</goal>
+                  </goals>
+                  <phase>package</phase>
+                </execution>
+              </executions>
+              <configuration>
+                <buildArgs>
+                  <buildArg>--enable-url-protocols=http,https</buildArg>
+                </buildArgs>
+              </configuration>
+            </plugin>
+          </plugins>
+        </build>
+      </profile>
+    </profiles>
     <properties>
-        <maven.compiler.source>25</maven.compiler.source>
-        <maven.compiler.target>25</maven.compiler.target>
+      <maven.compiler.source>25</maven.compiler.source>
+      <maven.compiler.target>25</maven.compiler.target>
     </properties>
     <dependencies>
       <dependency>
@@ -26,7 +54,7 @@
       <dependency>
         <groupId>org.slf4j</groupId> <!-- to remove jgit warning -->
         <artifactId>slf4j-nop</artifactId>
-        <version>1.7.30</version>
+        <version>1.7.2</version>
       </dependency>
       <dependency>
           <groupId>org.json</groupId>
@@ -35,19 +63,33 @@
           <scope>compile</scope>
       </dependency>
     </dependencies>
-    <build>
+  <build>
     <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.13.0</version>
+        <configuration>
+          <annotationProcessorPaths>
+            <path>
+              <groupId>info.picocli</groupId>
+              <artifactId>picocli-codegen</artifactId>
+              <version>4.7.6</version>
+            </path>
+          </annotationProcessorPaths>
+        </configuration>
+      </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-shade-plugin</artifactId>
         <version>3.6.1</version>
         <executions>
           <execution>
+            <configuration>
             <phase>package</phase>
             <goals>
               <goal>shade</goal>
             </goals>
-            <configuration>
               <filters>
                 <filter>
                   <artifact>*:*</artifact>

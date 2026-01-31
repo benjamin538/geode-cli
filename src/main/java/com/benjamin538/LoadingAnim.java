@@ -7,7 +7,7 @@ public class LoadingAnim implements Runnable{
     private volatile boolean running = true;
     @Override
     public void run() {
-        char block = '█';
+        char block = '#';
         int pos = 1;
         StringBuilder builder = new StringBuilder("[       ]");
         while (running) {

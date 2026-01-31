@@ -120,7 +120,7 @@ public class InstallBinaries implements Runnable {
             Files.delete(tempzip);
             zipStream.close();
             anim.stop();
-            logger.info("Binaries installed");
+            logger.done("Binaries installed");
         } catch(Exception ex) {
             anim.stop();
             logger.fatal("Unable to install binaries: " + ex.getMessage());
