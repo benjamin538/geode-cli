@@ -1,4 +1,4 @@
-package com.benjamin538.sdk;
+package com.benjamin538.Sdk;
 
 // picocli
 import picocli.CommandLine;

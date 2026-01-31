@@ -1,4 +1,4 @@
-package com.benjamin538.sdk;
+package com.benjamin538.Sdk;
 
 // file stuff
 import java.nio.file.Path;
@@ -24,8 +24,8 @@ public class SetSdkPath implements Runnable {
     String path;
     @Override
     public void run() {
-        String os = System.getProperty("os.name").toLowerCase();
-        if(os.startsWith("windows")) {
+        String os = System.getProperty("os.name").toLowerCase().replaceAll("[0-9]", "").replace(" ", "");;
+        if(os == "windows") {
             try {
                 Path newPath = Paths.get(path);
                 path = newPath.normalize().toString();

@@ -1,4 +1,4 @@
-package com.benjamin538.sdk;
+package com.benjamin538.Sdk;
 
 // da logging
 import com.benjamin538.util.Logging;

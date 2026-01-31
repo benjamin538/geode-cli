@@ -1,6 +1,6 @@
 package com.benjamin538;
 
-import com.benjamin538.sdk.Sdk;
+import com.benjamin538.Sdk.Sdk;
 
 // picocli
 import picocli.CommandLine;
@@ -14,7 +14,7 @@ import picocli.CommandLine.HelpCommand;
         HelpCommand.class,
         Sdk.class,
     },
-    version = "geode 3.7.1",
+    version = "geode 3.7.2",
     mixinStandardHelpOptions = true
 )
 public class Main {

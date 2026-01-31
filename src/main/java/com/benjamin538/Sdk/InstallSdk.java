@@ -1,4 +1,4 @@
-package com.benjamin538.sdk;
+package com.benjamin538.Sdk;
 
 // animation
 import com.benjamin538.LoadingAnim;
