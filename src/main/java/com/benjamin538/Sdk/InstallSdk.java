@@ -2,7 +2,10 @@ package com.benjamin538.Sdk;
 
 // animation
 import com.benjamin538.LoadingAnim;
+
+// da logging
 import com.benjamin538.util.Logging;
+import java.io.PrintWriter;
 
 // file stuff
 import java.nio.file.Files;
@@ -13,6 +16,8 @@ import java.io.File;
 
 // git
 import org.eclipse.jgit.api.Git;
+import org.eclipse.jgit.lib.TextProgressMonitor;
+import org.eclipse.jgit.api.CloneCommand;
 
 // picocli
 import picocli.CommandLine.Command;
@@ -27,6 +32,8 @@ public class InstallSdk implements Runnable {
     private Logging logger = new Logging();
     @Option(names = {"-h", "--help"}, description = "Print help", usageHelp = true)
     boolean help;
+    @Option(names = {"-v", "--verbose"}, description = "Hide loading animation & show git output")
+    boolean verbose;
     @Parameters(description = "Path to install")
     String path;
     @Override
@@ -40,8 +47,14 @@ public class InstallSdk implements Runnable {
         LoadingAnim anim = new LoadingAnim();
         try {
             logger.info("Downloading SDK");
-            Thread.startVirtualThread(anim);
-            Git.cloneRepository().setURI("https://github.com/geode-sdk/geode.git").setDirectory(new File(path)).call();
+            if(!verbose) {
+                Thread.startVirtualThread(anim);
+            }
+            CloneCommand command = Git.cloneRepository().setURI("https://github.com/geode-sdk/geode").setDirectory(new File(path));
+            if(verbose) {
+                command.setProgressMonitor(new TextProgressMonitor(new PrintWriter(System.out)));
+            }
+            command.call();
             SetSdkPath setsdk = new SetSdkPath();
             setsdk.setPath(newPath.toAbsolutePath().toString());
             anim.stop();
