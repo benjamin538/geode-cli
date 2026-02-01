@@ -1,9 +1,11 @@
 package com.benjamin538.Sdk;
 
 // file stuff
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.Files;
 import java.nio.file.StandardOpenOption;
+import java.nio.charset.StandardCharsets;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -30,6 +32,21 @@ public class SetSdkPath implements Runnable {
     boolean help;
     @Parameters(description = "New SDK Path")
     String path;
+    String plist = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n" +
+                "<!DOCTYPE plist PUBLIC \"-//Apple//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">\r\n" +
+                "<plist version=\"1.0\">\r\n" +
+                "<dict>\r\n" +
+                "  <key>Label</key>\r\n" +
+                "  <string>com.benjamin538.environment</string>\r\n" +
+                "  <key>EnvironmentVariables</key>\r\n" +
+                "  <dict>\r\n" +
+                "    <key>GEODE_SDK</key>\r\n" + 
+                "    <string>%s</string>\r\n" + 
+                "  </dict>\r\n" +
+                "  <key>RunAtLoad</key>\r\n" +
+                "  <true/>\r\n" +
+                "</dict>\r\n" +
+                "</plist>";
     @Override
     public void run() {
         setPath(path);
@@ -45,26 +62,49 @@ public class SetSdkPath implements Runnable {
                     process.waitFor();
                 } catch(Exception ex) {
                     logger.warn("Unable to set the GEODE_SDK enviroment to " + path);
+                    return;
                 }
             case "linux":
                 LinuxShellConfig config = Shell.getShellData(Shell.getShell(), newPath);
+                String backup;
                 try {
                     InputStream stream = Files.newInputStream(Paths.get(config.getProfile()));
-                    OutputStream outStream = Files.newOutputStream(Paths.get(config.getProfileBak()), StandardOpenOption.CREATE, StandardOpenOption.APPEND);
-                    outStream.write(stream.readAllBytes());
+                    OutputStream outStream = Files.newOutputStream(Paths.get(config.getProfileBak()), StandardOpenOption.CREATE, StandardOpenOption.WRITE, StandardOpenOption.TRUNCATE_EXISTING);
+                    backup = new String(stream.readAllBytes(), StandardCharsets.UTF_8);
+                    outStream.write(backup.getBytes());
                     stream.close();
                 } catch(IOException ex) {
                     logger.warn("Failed to write profile backup: " + ex.getMessage());
+                    return;
                 }
                 try {
-                    OutputStream stream = Files.newOutputStream(Paths.get(config.getProfile()), StandardOpenOption.CREATE, StandardOpenOption.APPEND);
-                    stream.write(config.getCommand().getBytes());
+                    backup = backup.replaceAll(config.getRegexPattern(), config.getCommand());
+                    OutputStream stream;
+                    if (!backup.contains(config.getCommand())) {
+                        stream = Files.newOutputStream(Paths.get(config.getProfile()), StandardOpenOption.CREATE, StandardOpenOption.APPEND);
+                        stream.write(config.getCommand().getBytes());
+                        stream.close();
+                        return;
+                    }
+                    stream = Files.newOutputStream(Paths.get(config.getProfile()), StandardOpenOption.CREATE, StandardOpenOption.WRITE, StandardOpenOption.TRUNCATE_EXISTING);
+                    stream.write(backup.getBytes());
                     stream.close();
                 } catch(IOException ex) {
                     logger.warn("Couldn't write profile file: " + ex.getMessage() + ". Please check if " + config.getProfile() + " is intact, otherwise apply the created backup");
+                    return;
                 }
             case "macos":
-                // TODO
+                // i dont have mac so i rely on stack overflow
+                String home = System.getenv("HOME");
+                Path envPath = Paths.get(home, "Library", "LaunchAgents", "enviroment.plist");
+                try {
+                    OutputStream stream = Files.newOutputStream(envPath, StandardOpenOption.CREATE, StandardOpenOption.WRITE, StandardOpenOption.TRUNCATE_EXISTING);
+                    stream.write(String.format(plist, newPath).getBytes(StandardCharsets.UTF_8));
+                    stream.close();
+                } catch(IOException ex) {
+                    logger.warn("Couldn't write enviroment file: " + ex.getMessage());
+                    return;
+                }
         }
     }
 }

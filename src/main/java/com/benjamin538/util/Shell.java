@@ -17,11 +17,11 @@ public abstract class Shell {
         String home = System.getenv("HOME");
         switch(shell) {
             case "bash":
-                return new LinuxShellConfig(home + "/.bash_profile", home + "/.bash_profile.bak", "export GEODE_SDK=" + path);
+                return new LinuxShellConfig(home + "/.bash_profile", home + "/.bash_profile.bak", "export GEODE_SDK=.*", "export GEODE_SDK=" + path);
             case "zsh":
-                return new LinuxShellConfig(home + "/.zshenv", home + "/.zshenv.bak", "export GEODE_SDK=" + path);
+                return new LinuxShellConfig(home + "/.zshenv", home + "/.zshenv.bak", "export GEODE_SDK=.*", "export GEODE_SDK=" + path);
             case "fish":
-                return new LinuxShellConfig(home + "/.config/fish/conf.d/geode.fish", home + "/.config/fish/conf.d/geode.fish.bak", "set -gx GEODE_SDK=" + path);
+                return new LinuxShellConfig(home + "/.config/fish/conf.d/geode.fish", home + "/.config/fish/conf.d/geode.fish.bak", "set -gx GEODE_SDK=.*", "set -gx GEODE_SDK=" + path);
         }
         return null;
     }
