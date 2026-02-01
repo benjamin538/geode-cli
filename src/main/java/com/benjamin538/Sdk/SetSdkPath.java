@@ -53,13 +53,14 @@ public class SetSdkPath implements Runnable {
     }
 
     public void setPath(String newPath) {
-        String os = System.getProperty("os.name").toLowerCase().replaceAll("[0-9]", "").replace(" ", "");;
+        String os = System.getProperty("os.name").toLowerCase().replaceAll("[0-9]", "").replace(" ", "");
         switch(os) {
             case "windows":
                 try {
-                    ProcessBuilder builder = new ProcessBuilder("setx", "GEODE_SDK " + newPath);
+                    ProcessBuilder builder = new ProcessBuilder("setx", "GEODE_SDK", newPath);
                     Process process = builder.start();
                     process.waitFor();
+                    return;
                 } catch(Exception ex) {
                     logger.warn("Unable to set the GEODE_SDK enviroment to " + path);
                     return;
@@ -89,6 +90,7 @@ public class SetSdkPath implements Runnable {
                     stream = Files.newOutputStream(Paths.get(config.getProfile()), StandardOpenOption.CREATE, StandardOpenOption.WRITE, StandardOpenOption.TRUNCATE_EXISTING);
                     stream.write(backup.getBytes());
                     stream.close();
+                    return;
                 } catch(IOException ex) {
                     logger.warn("Couldn't write profile file: " + ex.getMessage() + ". Please check if " + config.getProfile() + " is intact, otherwise apply the created backup");
                     return;
@@ -101,6 +103,7 @@ public class SetSdkPath implements Runnable {
                     OutputStream stream = Files.newOutputStream(envPath, StandardOpenOption.CREATE, StandardOpenOption.WRITE, StandardOpenOption.TRUNCATE_EXISTING);
                     stream.write(String.format(plist, newPath).getBytes(StandardCharsets.UTF_8));
                     stream.close();
+                    return;
                 } catch(IOException ex) {
                     logger.warn("Couldn't write enviroment file: " + ex.getMessage());
                     return;

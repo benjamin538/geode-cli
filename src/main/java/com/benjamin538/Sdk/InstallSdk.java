@@ -63,6 +63,7 @@ public class InstallSdk implements Runnable {
             logger.info("Use `geode sdk install-binaries` to install pre-built binaries");
         } catch(Exception ex) {
             anim.stop();
+            ex.printStackTrace();
             logger.fatal("Could not install SDK: " + ex.getMessage());
         }
     }
