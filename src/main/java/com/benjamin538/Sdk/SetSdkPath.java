@@ -79,6 +79,7 @@ public class SetSdkPath implements Runnable {
                     }
                     OutputStream outStream = Files.newOutputStream(Paths.get(config.getProfileBak()), StandardOpenOption.CREATE, StandardOpenOption.WRITE, StandardOpenOption.TRUNCATE_EXISTING);
                     outStream.write(backup.getBytes());
+                    outStream.close();
                 } catch(IOException ex) {
                     logger.warn("Failed to write profile backup: " + ex.getMessage());
                     return;
