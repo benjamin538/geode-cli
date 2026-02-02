@@ -3,36 +3,28 @@ package com.benjamin538.util;
 import java.util.Scanner;
 
 public class Logging {
-    // codes
-    private String brightCyan = "\u001B[36m";
-    private String brightRed = "\u001B[31m";
-    private String brightYellow = "\u001B[33m";
-    private String brightGreen = "\u001B[32m";
-    private String brightPurple = "\u001B[35m";
-    private String resetCode = "\u001B[0m";
-
     // scanner
     private Scanner scanner = new Scanner(System.in);
 
     // "macroses"
     public void warn(String message) {
-        System.out.println(brightYellow + "| Warn | " + resetCode + message);
+        System.out.println(Colors.BRIGHT_RED + "| Warn | " + Colors.RESET + message);
     }
 
     public void info(String message) {
-        System.out.println(brightCyan + "| Info | " + resetCode + message);
+        System.out.println(Colors.BRIGHT_CYAN + "| Info | " + Colors.RESET + message);
     }
 
     public void done(String message) {
-        System.out.println(brightGreen + "| Done | " + resetCode + message);
+        System.out.println(Colors.BRIGHT_GREEN + "| Done | " + Colors.RESET + message);
     }
 
     public void fail(String message) {
-        System.err.println(brightRed + "| Fail | " + resetCode + message);
+        System.err.println(Colors.BRIGHT_RED + "| Fail | " + Colors.RESET + message);
     }
 
     public void fatal(String message) {
-        System.err.println(brightRed + "| Fail | " + resetCode + message);
+        System.err.println(Colors.BRIGHT_RED + "| Fail | " + Colors.RESET + message);
         System.exit(1);
     }
 
@@ -47,7 +39,7 @@ public class Logging {
     // methods
     public Boolean askConfirm(String text, Boolean bool) {
         System.out.print(
-            brightPurple + "| Okay | " + resetCode + text + (bool ? " (Y/n) " : " (y/N) ")
+            Colors.BRIGHT_PURPLE + "| Okay | " + Colors.RESET + text + (bool ? " (Y/n) " : " (y/N) ")
         );
         try {
             String yes = scanner.nextLine();

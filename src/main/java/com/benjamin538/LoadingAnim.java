@@ -1,8 +1,5 @@
 package com.benjamin538;
 
-// for cooldown
-import java.time.Duration;
-
 public class LoadingAnim implements Runnable{
     private volatile boolean running = true;
     @Override
@@ -20,7 +17,7 @@ public class LoadingAnim implements Runnable{
             builder.setCharAt(pos-1, ' ');
             System.out.print("\r" + builder.toString());
             try{
-                Thread.sleep(Duration.ofMillis(500));
+                Thread.sleep(500);
             } catch (Exception ex) {
                 stop();
                 System.err.println(ex.getMessage());

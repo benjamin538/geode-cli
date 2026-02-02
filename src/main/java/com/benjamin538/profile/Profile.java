@@ -11,7 +11,8 @@ import picocli.CommandLine.HelpCommand;
     description = "Options for managing profiles (installations of Geode)",
     subcommands = {
         HelpCommand.class,
-        AddProfile.class
+        AddProfile.class,
+        ListProfiles.class
     }
 )
 public class Profile implements Runnable {
