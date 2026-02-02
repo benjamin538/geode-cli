@@ -6,7 +6,6 @@ import java.nio.file.Paths;
 import java.nio.file.Files;
 import java.nio.file.StandardOpenOption;
 import java.nio.charset.StandardCharsets;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -74,7 +73,7 @@ public class SetSdkPath implements Runnable {
                         InputStream stream = Files.newInputStream(Paths.get(config.getProfile()));
                         backup = new String(stream.readAllBytes(), StandardCharsets.UTF_8);
                         stream.close();
-                    } catch(FileNotFoundException ex) {
+                    } catch(IOException ex) {
                         backup = "";
                     }
                     OutputStream outStream = Files.newOutputStream(Paths.get(config.getProfileBak()), StandardOpenOption.CREATE, StandardOpenOption.WRITE, StandardOpenOption.TRUNCATE_EXISTING);
