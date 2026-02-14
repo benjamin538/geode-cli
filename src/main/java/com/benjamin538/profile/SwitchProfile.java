@@ -19,17 +19,18 @@ import picocli.CommandLine.Option;
 import picocli.CommandLine.Parameters;
 
 @Command(
-    name = "path",
-    description = "Get the GD path for a profile"
+    name = "switch",
+    description = "Switch main profile"
 )
-public class ProfilePath implements Runnable {
+public class SwitchProfile implements Runnable {
     private Logging logger = new Logging();
-    @Parameters(description = "The profile to get a path for, or none for default", defaultValue = "default")
+    @Parameters(description = "New main profile")
     String profile;
     @Option(names = {"-h", "--help"}, description = "Print help")
     boolean help;
     @Override
     public void run() {
+        boolean found = false;
         Path path = Paths.get(System.getenv("LOCALAPPDATA"), "Geode", "config.json");
         if(!Files.exists(path)) {
             logger.fatal("No Geode profiles found! Setup one by using `geode config setup`");
@@ -42,17 +43,18 @@ public class ProfilePath implements Runnable {
             }
             JSONObject profileJSON = new JSONObject(Files.readAllLines(path).get(0));
             JSONArray profileArray = profileJSON.getJSONArray("profiles");
-            if (profile == "default") {
-                profile = profileJSON.getString("current-profile");
-            }
             for(Object jprofile : profileArray) {
                 JSONObject JSONProfile = (JSONObject) jprofile;
                 String name = JSONProfile.getString("name");
-                String gdPath = JSONProfile.getString("gd-path");
-                if (name == profile) {
-                    System.out.println(gdPath);
-                    return;
+                if (name.equals(profile)) {
+                    found = !found;
                 }
+            }
+            if (found) {
+                profileJSON.put("current-profile", profile);
+                Files.write(path, profileJSON.toString().getBytes());
+                logger.done("'" + profile + "' is now the current profile");
+                return;
             }
             logger.fatal("No profile found with name " + profile);
         } catch(JSONException ex) {
