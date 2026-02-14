@@ -29,6 +29,7 @@
               <configuration>
                 <buildArgs>
                   <buildArg>--enable-url-protocols=http,https</buildArg>
+                  <buildArg>-Os</buildArg>
                 </buildArgs>
               </configuration>
             </plugin>

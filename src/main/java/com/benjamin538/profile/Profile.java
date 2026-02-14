@@ -12,7 +12,8 @@ import picocli.CommandLine.HelpCommand;
     subcommands = {
         HelpCommand.class,
         AddProfile.class,
-        ListProfiles.class
+        ListProfiles.class,
+        ProfilePath.class
     }
 )
 public class Profile implements Runnable {
