@@ -43,6 +43,9 @@ public class RenameProfile implements Runnable {
             for(Object jprofile : profileArray) {
                 JSONObject JSONProfile = (JSONObject) jprofile;
                 String name = JSONProfile.getString("name");
+                if (name.equals(newName)) {
+                    logger.fatal("Profile with name '" + newName + "' already exists!");
+                }
                 if (name.equals(old)) {
                     JSONProfile.put("name", newName);
                     if (current.equals(old)) {
