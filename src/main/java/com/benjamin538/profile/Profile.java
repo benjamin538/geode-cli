@@ -14,7 +14,8 @@ import picocli.CommandLine.HelpCommand;
         AddProfile.class,
         ListProfiles.class,
         ProfilePath.class,
-        SwitchProfile.class
+        SwitchProfile.class,
+        RenameProfile.class
     }
 )
 public class Profile implements Runnable {

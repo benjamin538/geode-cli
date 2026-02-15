@@ -9,7 +9,7 @@ import java.nio.file.Paths;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-// file check
+// checking
 import com.benjamin538.util.CheckProfileFile;
 
 // da logging
@@ -17,39 +17,43 @@ import com.benjamin538.util.Logging;
 
 // picocli
 import picocli.CommandLine.Command;
-import picocli.CommandLine.Option;
 import picocli.CommandLine.Parameters;
+import picocli.CommandLine.Option;
 
 @Command(
-    name = "path",
-    description = "Get the GD path for a profile"
+    name = "rename",
+    description = "Rename profile"
 )
-public class ProfilePath implements Runnable {
+public class RenameProfile implements Runnable {
     private Logging logger = new Logging();
-    @Parameters(description = "The profile to get a path for, or none for default", defaultValue = "default")
-    String profile;
+    @Parameters(description = "Profile to rename")
+    String old;
+    @Parameters(description = "New name")
+    String newName;
     @Option(names = {"-h", "--help"}, description = "Print help")
     boolean help;
     @Override
     public void run() {
-        Path path = Paths.get(System.getenv("LOCALAPPDATA"), "Geode", "config.json");
-        CheckProfileFile.checkFile();
         try {
+            Path path = Paths.get(System.getenv("LOCALAPPDATA"), "Geode", "config.json");
+            CheckProfileFile.checkFile();
             JSONObject profileJSON = new JSONObject(Files.readAllLines(path).get(0));
             JSONArray profileArray = profileJSON.getJSONArray("profiles");
-            if (profile == "default") {
-                profile = profileJSON.getString("current-profile");
-            }
+            String current = profileJSON.getString("current-profile");
             for(Object jprofile : profileArray) {
                 JSONObject JSONProfile = (JSONObject) jprofile;
                 String name = JSONProfile.getString("name");
-                String gdPath = JSONProfile.getString("gd-path");
-                if (name == profile) {
-                    System.out.println(gdPath);
+                if (name.equals(old)) {
+                    JSONProfile.put("name", newName);
+                    if (current.equals(old)) {
+                        profileJSON.put("current-profile", newName);
+                    }
+                    Files.write(path, profileJSON.toString().getBytes());
+                    logger.done("Successfully renamed '" + old + "' to '" + newName + "'");
                     return;
                 }
             }
-            logger.fatal("No profile found with name " + profile);
+            logger.fatal("No profile found with name " + old);
         } catch(Exception ex) {
             logger.fatal("Error while reading profiles: " + ex.getMessage());
             return;

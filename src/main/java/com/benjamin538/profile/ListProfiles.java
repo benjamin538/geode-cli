@@ -1,6 +1,11 @@
 package com.benjamin538.profile;
 
+// file check
+import com.benjamin538.util.CheckProfileFile;
+
+// colors !!!
 import com.benjamin538.util.Colors;
+
 // da loggign
 import com.benjamin538.util.Logging;
 
@@ -29,10 +34,7 @@ public class ListProfiles implements Runnable {
     @Override
     public void run() {
         Path path = Paths.get(System.getenv("LOCALAPPDATA"), "Geode", "config.json");
-        if(!Files.exists(path)) {
-            logger.fatal("No Geode profiles found! Setup one by using `geode config setup`");
-            return;
-        }
+        CheckProfileFile.checkFile();
         try {
             if(Files.readAllLines(path).isEmpty()) {
                 logger.fatal("No Geode profiles found! Setup one by using `geode config setup`");
