@@ -48,7 +48,7 @@ public class DeleteProfile implements Runnable {
                         if (!confirm) {
                             logger.fatal("Aborting");
                         }
-                        profileJSON.put("current-profile", JSONObject.NULL);
+                        profileJSON.put("current-profile", "");
                     }
                     profileArray.remove(index);
                     profileJSON.put("profiles", profileArray);
