@@ -77,7 +77,7 @@ public class AddProfile implements Runnable {
                 // im losing sanity
                 String os = System.getProperty("os.name").toLowerCase().replaceAll("[0-9]", "").replace(" ", "");
                 OutputStream stream = Files.newOutputStream(configPath, StandardOpenOption.WRITE);
-                JSONObject profileJSON = new JSONObject(Files.readAllLines(configPath).get(0));
+                JSONObject profileJSON = new JSONObject(Files.readString(configPath));
                 JSONArray profileList = profileJSON.getJSONArray("profiles");
                 
                 for(int i = 0; i < profileList.length(); i++) {

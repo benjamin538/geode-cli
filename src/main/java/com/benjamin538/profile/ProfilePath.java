@@ -26,25 +26,25 @@ import picocli.CommandLine.Parameters;
 )
 public class ProfilePath implements Runnable {
     private Logging logger = new Logging();
-    @Parameters(description = "The profile to get a path for, or none for default", defaultValue = "default")
+    @Parameters(description = "The profile to get a path for, or none for default", defaultValue = "")
     String profile;
-    @Option(names = {"-h", "--help"}, description = "Print help")
+    @Option(names = {"-h", "--help"}, description = "Print help", usageHelp = true)
     boolean help;
     @Override
     public void run() {
         Path path = Paths.get(System.getenv("LOCALAPPDATA"), "Geode", "config.json");
         CheckProfileFile.checkFile();
         try {
-            JSONObject profileJSON = new JSONObject(Files.readAllLines(path).get(0));
+            JSONObject profileJSON = new JSONObject(Files.readString(path));
             JSONArray profileArray = profileJSON.getJSONArray("profiles");
-            if (profile == "default") {
+            if (profile.equals("")) {
                 profile = profileJSON.getString("current-profile");
             }
             for(Object jprofile : profileArray) {
                 JSONObject JSONProfile = (JSONObject) jprofile;
                 String name = JSONProfile.getString("name");
                 String gdPath = JSONProfile.getString("gd-path");
-                if (name == profile) {
+                if (name.equals(profile)) {
                     System.out.println(gdPath);
                     return;
                 }

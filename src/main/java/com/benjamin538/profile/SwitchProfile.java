@@ -26,14 +26,14 @@ public class SwitchProfile implements Runnable {
     private Logging logger = new Logging();
     @Parameters(description = "New main profile")
     String profile;
-    @Option(names = {"-h", "--help"}, description = "Print help")
+    @Option(names = {"-h", "--help"}, description = "Print help", usageHelp = true)
     boolean help;
     @Override
     public void run() {
         Path path = Paths.get(System.getenv("LOCALAPPDATA"), "Geode", "config.json");
         CheckProfileFile.checkFile();
         try {
-            JSONObject profileJSON = new JSONObject(Files.readAllLines(path).get(0));
+            JSONObject profileJSON = new JSONObject(Files.readString(path));
             JSONArray profileArray = profileJSON.getJSONArray("profiles");
             for(Object jprofile : profileArray) {
                 JSONObject JSONProfile = (JSONObject) jprofile;
