@@ -2,6 +2,7 @@ package com.benjamin538;
 
 import com.benjamin538.Sdk.Sdk;
 import com.benjamin538.profile.Profile;
+import com.benjamin538.profile.RunProfile;
 
 // picocli
 import picocli.CommandLine;
@@ -14,7 +15,8 @@ import picocli.CommandLine.HelpCommand;
     subcommands = {
         HelpCommand.class,
         Sdk.class,
-        Profile.class
+        Profile.class,
+        RunProfile.class
     },
     version = "geode 3.7.2",
     mixinStandardHelpOptions = true
