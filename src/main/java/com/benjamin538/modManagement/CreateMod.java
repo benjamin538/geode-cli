@@ -123,11 +123,15 @@ jobs:
             String name = logger.askValue("Name", null, true);
             String version = logger.askValue("Version", "v1.0.0", false);
             String developer;
-            if (CurrentDeveloper.getDev().equals("")) {
-                developer = logger.askValue("Developer", CurrentDeveloper.getDev(), true);
-            }
-            else {
-                developer = logger.askValue("Developer", CurrentDeveloper.getDev(), false);
+            try {
+                if (!CurrentDeveloper.getDev().equals("")) {
+                    developer = logger.askValue("Developer", CurrentDeveloper.getDev(), false);
+                }
+                else {
+                    developer = logger.askValue("Developer", "", true);
+                }
+            } catch (Exception ex) {
+              developer = logger.askValue("Developer", "", true);
             }
             String description = logger.askValue("Description", "", false);
             boolean actions = logger.askConfirm("Do you want to add the cross-platform Github action?", true);

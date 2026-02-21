@@ -5,9 +5,6 @@ import com.benjamin538.util.Logging;
 
 // file stuff
 import java.nio.file.Paths;
-import java.nio.file.StandardOpenOption;
-import java.io.OutputStream;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
@@ -43,12 +40,12 @@ public class AddProfile implements Runnable {
             logger.fatal("Geometry Dash executable not found");
             return;
         }
-        Path configPath = Paths.get(System.getenv("LOCALAPPDATA"), "Geode", "config.json");
+        Path configPath = Paths.get(System.getenv("LOCALAPPDATA"), "Geode", "mod.json");
         if (!Files.exists(configPath)) {
             try {
+                Files.createDirectories(Paths.get(System.getenv("LOCALAPPDATA"), "Geode"));
                 // this is BULLLLLSHITTTTT
                 String os = System.getProperty("os.name").toLowerCase().replaceAll("[0-9]", "").replace(" ", "");
-                OutputStream stream = Files.newOutputStream(configPath, StandardOpenOption.CREATE, StandardOpenOption.WRITE);
 
                 JSONObject profile = new JSONObject();
                 profile.put("name", name);
@@ -67,7 +64,7 @@ public class AddProfile implements Runnable {
                 jsonObj.put("index-token", JSONObject.NULL);
                 jsonObj.put("index-url", "https://api.geode-sdk.org");
 
-                stream.write(jsonObj.toString().getBytes(StandardCharsets.UTF_8));
+                Files.write(configPath, jsonObj.toString().getBytes());
                 logger.done("A profile named '" + name + "' has been created");
             } catch(Exception ex) {
                 logger.fatal("Failed to create profile: " + ex.getMessage());
@@ -76,7 +73,6 @@ public class AddProfile implements Runnable {
             try {
                 // im losing sanity
                 String os = System.getProperty("os.name").toLowerCase().replaceAll("[0-9]", "").replace(" ", "");
-                OutputStream stream = Files.newOutputStream(configPath, StandardOpenOption.WRITE);
                 JSONObject profileJSON = new JSONObject(Files.readString(configPath));
                 JSONArray profileList = profileJSON.getJSONArray("profiles");
                 
@@ -92,8 +88,8 @@ public class AddProfile implements Runnable {
                 newProfile.put("platform", os);
 
                 profileList.put(newProfile);
-                
-                stream.write(profileJSON.toString().getBytes());
+                profileJSON.put("profiles", profileList);
+                Files.write(configPath, profileJSON.toString().getBytes());
                 logger.done("A profile named '" + name + "' has been created");
             } catch(Exception ex) {
                 logger.fatal("Failed to create profile: " + ex.getMessage());
