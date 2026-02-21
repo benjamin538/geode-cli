@@ -6,13 +6,11 @@ import com.benjamin538.util.Logging;
 // file stuff
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 import java.nio.file.Files;
 import java.io.InputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
 // net stuff
@@ -93,29 +91,19 @@ public class InstallBinaries implements Runnable {
             client.close();
             InputStream readZipStream = Files.newInputStream(tempzip);
             ZipInputStream zipStream = new ZipInputStream(readZipStream);
-            ZipEntry zipEntry = zipStream.getNextEntry();
-            byte[] buffer = new byte[1024];
-            while (zipEntry != null) {
-                File newFile = new File(path.toAbsolutePath().toString(), zipEntry.getName());
-                if (zipEntry.isDirectory()) {
-                    if (!newFile.isDirectory() && !newFile.mkdirs()) {
-                        throw new IOException("Failed to create directory " + newFile);
-                    }
-                } else {
-                    File parent = newFile.getParentFile();
-                    if (!parent.isDirectory() && !parent.mkdirs()) {
-                        throw new IOException("Failed to create directory " + parent);
-                    }
+            ZipEntry entry;
+            while ((entry = zipStream.getNextEntry()) != null) {
+                Path newPath = Paths.get(path.toAbsolutePath().toString()).resolve(entry.getName());
 
-                    FileOutputStream fos = new FileOutputStream(newFile);
-                    int len;
-                    while ((len = zipStream.read(buffer)) > 0) {
-                        fos.write(buffer, 0, len);
+                if (entry.isDirectory()) {
+                    Files.createDirectories(newPath);
+                } else {
+                    if (newPath.getParent() != null) {
+                        Files.createDirectories(newPath.getParent());
                     }
-                    fos.close();
+                    Files.copy(zipStream, newPath, StandardCopyOption.REPLACE_EXISTING);
                 }
                 zipStream.closeEntry();
-                zipEntry = zipStream.getNextEntry();
             }
             Files.delete(tempzip);
             zipStream.close();

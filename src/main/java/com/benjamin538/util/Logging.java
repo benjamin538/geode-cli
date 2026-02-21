@@ -8,7 +8,7 @@ public class Logging {
 
     // "macroses"
     public void warn(String message) {
-        System.out.println(Colors.BRIGHT_RED + "| Warn | " + Colors.RESET + message);
+        System.out.println(Colors.BRIGHT_YELLOW + "| Warn | " + Colors.RESET + message);
     }
 
     public void info(String message) {
@@ -54,7 +54,7 @@ public class Logging {
     }
 
     public String askValue(String prompt, String defaultStr, Boolean required) {
-        System.out.print(prompt + (required ? "" : "(optional)") + ": ");
+        System.out.print(prompt + (required ? "" : " (optional)") + ": ");
         String line;
         while (scanner.hasNextLine()) {
             try {

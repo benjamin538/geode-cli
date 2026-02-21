@@ -38,7 +38,7 @@ public class ProfilePath implements Runnable {
             JSONObject profileJSON = new JSONObject(Files.readString(path));
             JSONArray profileArray = profileJSON.getJSONArray("profiles");
             if (profile.equals("")) {
-                profile = profileJSON.getString("current-profile");
+                profile = CurrentDeveloper.get();
             }
             for(Object jprofile : profileArray) {
                 JSONObject JSONProfile = (JSONObject) jprofile;

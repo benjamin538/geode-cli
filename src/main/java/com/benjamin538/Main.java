@@ -1,6 +1,7 @@
 package com.benjamin538;
 
 import com.benjamin538.Sdk.Sdk;
+import com.benjamin538.modManagement.CreateMod;
 import com.benjamin538.profile.Profile;
 import com.benjamin538.profile.RunProfile;
 
@@ -16,9 +17,10 @@ import picocli.CommandLine.HelpCommand;
         HelpCommand.class,
         Sdk.class,
         Profile.class,
-        RunProfile.class
+        RunProfile.class,
+        CreateMod.class
     },
-    version = "geode 3.7.2",
+    version = "geode java 0.25",
     mixinStandardHelpOptions = true
 )
 public class Main {

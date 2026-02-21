@@ -37,7 +37,7 @@ public class ListProfiles implements Runnable {
         try {
             JSONObject profileJSON = new JSONObject(Files.readString(path));
             JSONArray profileArray = profileJSON.getJSONArray("profiles");
-            String currentProfile = profileJSON.getString("current-profile");
+            String currentProfile = CurrentDeveloper.get();
             for(Object profile : profileArray) {
                 JSONObject JSONProfile = (JSONObject) profile;
                 String name = JSONProfile.getString("name");

@@ -39,7 +39,7 @@ public class RenameProfile implements Runnable {
             CheckProfileFile.checkFile();
             JSONObject profileJSON = new JSONObject(Files.readString(path));
             JSONArray profileArray = profileJSON.getJSONArray("profiles");
-            String current = profileJSON.getString("current-profile");
+            String current = CurrentDeveloper.get();
             for(Object jprofile : profileArray) {
                 JSONObject JSONProfile = (JSONObject) jprofile;
                 String name = JSONProfile.getString("name");

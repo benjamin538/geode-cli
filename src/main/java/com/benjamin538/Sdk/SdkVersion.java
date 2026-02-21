@@ -4,8 +4,6 @@ package com.benjamin538.Sdk;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.Files;
-import java.io.InputStream;
-import java.nio.charset.StandardCharsets;
 
 // da logging
 import com.benjamin538.util.Logging;
@@ -24,14 +22,19 @@ public class SdkVersion implements Runnable {
     boolean help;
     @Override
     public void run() {
+        if (getVersion().equals("")) {
+            return;
+        }
+        logger.info("Geode SDK Version: " + getVersion());
+    }
+
+    public String getVersion() {
         try {
             Path path = Paths.get(System.getenv("GEODE_SDK"), "VERSION");
-            InputStream stream = Files.newInputStream(path);
-            String version = new String(stream.readAllBytes(), StandardCharsets.UTF_8).replace("\r\n", " ");
-            logger.info("Geode SDK Version: " + version);
-            stream.close();
+            return Files.readString(path);
         } catch(Exception ex) {
-            logger.fatal("Unable to get SDK version: " + ex.getMessage());
+            logger.fail("Unable to get SDK version: " + ex.getMessage());
+            return "";
         }
     }
 }
