@@ -40,7 +40,7 @@ public class AddProfile implements Runnable {
             logger.fatal("Geometry Dash executable not found");
             return;
         }
-        Path configPath = Paths.get(System.getenv("LOCALAPPDATA"), "Geode", "mod.json");
+        Path configPath = Paths.get(System.getenv("LOCALAPPDATA"), "Geode", "config.json");
         if (!Files.exists(configPath)) {
             try {
                 Files.createDirectories(Paths.get(System.getenv("LOCALAPPDATA"), "Geode"));
