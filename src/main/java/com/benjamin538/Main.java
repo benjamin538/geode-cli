@@ -18,7 +18,8 @@ import picocli.CommandLine.HelpCommand;
         Sdk.class,
         Profile.class,
         RunProfile.class,
-        CreateMod.class
+        CreateMod.class,
+        com.benjamin538.config.Config.class
     },
     version = "geode java 0.25",
     mixinStandardHelpOptions = true

@@ -11,13 +11,19 @@ import org.json.JSONException;
 public abstract class CheckProfileFile {
     public static void checkFile() {
         Logging logger = new Logging();
-        Path path = Paths.get(System.getenv("LOCALAPPDATA"), "Geode", "config.json");
-        if(!Files.exists(path)) {
+        Path configPath;
+        if (System.getenv("LOCALAPPDATA") != null) {
+            configPath = Paths.get(System.getenv("LOCALAPPDATA"), "Geode", "config.json");
+        }
+        else {
+            configPath = Paths.get(System.getProperty("user.home"),".local", "share", "Geode", "config.json");
+        }
+        if(!Files.exists(configPath)) {
             logger.fatal("No Geode profiles found! Setup one by using `geode config setup`");
             return;
         }
         try {
-            if(Files.readAllLines(path).isEmpty()) {
+            if(Files.readAllLines(configPath).isEmpty()) {
                 logger.fatal("No Geode profiles found! Setup one by using `geode config setup`");
                 return;
             }

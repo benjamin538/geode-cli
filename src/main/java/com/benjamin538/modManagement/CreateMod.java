@@ -33,72 +33,16 @@ import java.util.Locale;
 
 // picocli
 import picocli.CommandLine.Command;
+import picocli.CommandLine.Option;
 
 @Command(
     name = "new",
     description = "Initialize a new Geode project"
 )
 public class CreateMod implements Runnable {
+    @Option(names = {"-h", "--help"}, usageHelp = true, description = "Print this message or the help of the given subcommand(s)")
+    boolean help;
     private Logging logger = new Logging();
-    private String ghAction  = """
-name: Build Geode Mod
-
-on:
-  workflow_dispatch:
-  push:
-    branches:
-      - "**"
-
-jobs:
-  build:
-    strategy:
-      fail-fast: false
-      matrix:
-        config:
-        - name: Windows
-          os: windows-latest
-
-        - name: macOS
-          os: macos-latest
-
-        - name: iOS
-          os: macos-latest
-          target: iOS
-
-        - name: Android32
-          os: ubuntu-latest
-          target: Android32
-
-        - name: Android64
-          os: ubuntu-latest
-          target: Android64
-
-    name: ${{ matrix.config.name }}
-    runs-on: ${{ matrix.config.os }}
-
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Build the mod
-        uses: geode-sdk/build-geode-mod@main
-        with:
-          combine: true
-          target: ${{ matrix.config.target }}
-
-  package:
-    name: Package builds
-    runs-on: ubuntu-latest
-    needs: ['build']
-
-    steps:
-      - uses: geode-sdk/build-geode-mod/combine@main
-        id: build
-
-      - uses: actions/upload-artifact@v4
-        with:
-          name: Build Output
-          path: ${{ steps.build.outputs.build-output }}
-            """;
     @Override
     public void run() {
         Locale.setDefault(Locale.ENGLISH);
@@ -165,7 +109,7 @@ jobs:
             Files.write(Paths.get(name, "mod.json"), modJSON.toString(4).getBytes());
             if (actions) {
                 Files.createDirectories(Paths.get(name, ".github", "workflows"));
-                Files.write(Paths.get(name, ".github", "workflows", "multi-platform.yaml"), ghAction.getBytes());
+                Files.write(Paths.get(name, ".github", "workflows", "multi-platform.yaml"), this.getClass().getClassLoader().getResourceAsStream("multi-platform.yaml").readAllBytes());
             }
             logger.info("Created project \"" + name + "\".");
             if (sdkVersion.equals("")) {

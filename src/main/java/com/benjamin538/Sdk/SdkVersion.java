@@ -3,7 +3,11 @@ package com.benjamin538.Sdk;
 // file stuff
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.io.IOException;
 import java.nio.file.Files;
+
+// json
+import org.json.JSONObject;
 
 // da logging
 import com.benjamin538.util.Logging;
@@ -31,10 +35,25 @@ public class SdkVersion implements Runnable {
     public String getVersion() {
         try {
             Path path = Paths.get(System.getenv("GEODE_SDK"), "VERSION");
-            return Files.readString(path);
+            return Files.readString(path).replace("\n", "");
         } catch(Exception ex) {
             logger.fail("Unable to get SDK version: " + ex.getMessage());
             return "";
+        }
+    }
+
+    public void setVersion(String version) {
+        version = version.replace("\n", "");
+        Path path = Paths.get(System.getenv("LOCALAPPDATA"), "Geode", "config.json");
+        if (!Files.exists(path)) {
+            return;
+        }
+        try {
+            JSONObject profileJSON = new JSONObject(Files.readString(path));
+            profileJSON.put("sdk-version", version);
+            Files.write(path, profileJSON.toString().getBytes());
+        } catch(IOException ex) {
+            return;
         }
     }
 }

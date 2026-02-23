@@ -11,7 +11,6 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 import java.nio.file.Files;
 import java.io.InputStream;
-import java.nio.charset.StandardCharsets;
 
 // net stuff
 import java.net.http.HttpClient;
@@ -44,7 +43,7 @@ public class InstallBinaries implements Runnable {
             String os = System.getProperty("os.name").toLowerCase().replaceAll("[0-9]", "").replace(" ", "");
             Path path = Paths.get(System.getenv("GEODE_SDK"), "VERSION");
             InputStream stream = Files.newInputStream(path);
-            String version = new String(stream.readAllBytes(), StandardCharsets.UTF_8).replace("\r\n", " ");
+            String version = new SdkVersion().getVersion();
             logger.info("Installing binaries for "  + os + " " + version);
             stream.close();
             Thread.startVirtualThread(anim);
@@ -81,7 +80,11 @@ public class InstallBinaries implements Runnable {
 
             if (downloadUrl.isEmpty()) {
                 anim.stop();
-                logger.fatal("No binaries found for " + os);
+                logger.fail("No binaries found for " + os);
+                if (logger.askConfirm("Print JSON?", true)) {
+                    System.out.println(json.toString(4));
+                    System.exit(1);
+                }
             }
             path = Paths.get(System.getenv("GEODE_SDK"), "bin", version.replace(" ", ""));
             Files.createDirectories(path);

@@ -51,7 +51,13 @@ public class RunProfile implements Runnable {
                 logger.fatal("Impossible argument combination (background and stay)");
             }
             String os = System.getProperty("os.name").toLowerCase().replaceAll("[0-9]", "").replace(" ", "");
-            Path path = Paths.get(System.getenv("LOCALAPPDATA"), "Geode", "config.json");
+            Path path;
+            if (System.getenv("LOCALAPPDATA") != null) {
+                path = Paths.get(System.getenv("LOCALAPPDATA"), "Geode", "config.json");
+            }
+            else {
+                path = Paths.get(System.getProperty("user.home"),".local", "share", "Geode", "config.json");
+            }
             CheckProfileFile.checkFile();
             JSONObject profileJSON = new JSONObject(Files.readString(path));
             JSONArray profileArray = profileJSON.getJSONArray("profiles");

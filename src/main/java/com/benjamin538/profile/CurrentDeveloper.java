@@ -19,7 +19,13 @@ public abstract class CurrentDeveloper {
         Logging logger = new Logging();
         CheckProfileFile.checkFile();
         try {
-            Path configPath = Paths.get(System.getenv("LOCALAPPDATA"), "Geode", "config.json");
+            Path configPath;
+            if (System.getenv("LOCALAPPDATA") != null) {
+                configPath = Paths.get(System.getenv("LOCALAPPDATA"), "Geode", "config.json");
+            }
+            else {
+                configPath = Paths.get(System.getProperty("user.home"),".local", "share", "Geode", "config.json");
+            }
             JSONObject profileJSON = new JSONObject(Files.readString(configPath));
             String currentProfile = profileJSON.getString("current-profile");
             return currentProfile;

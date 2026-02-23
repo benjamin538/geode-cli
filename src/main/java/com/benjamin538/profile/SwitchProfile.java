@@ -30,7 +30,13 @@ public class SwitchProfile implements Runnable {
     boolean help;
     @Override
     public void run() {
-        Path path = Paths.get(System.getenv("LOCALAPPDATA"), "Geode", "config.json");
+        Path path;
+        if (System.getenv("LOCALAPPDATA") != null) {
+            path = Paths.get(System.getenv("LOCALAPPDATA"), "Geode", "config.json");
+        }
+        else {
+            path = Paths.get(System.getProperty("user.home"),".local", "share", "Geode", "config.json");
+        }
         CheckProfileFile.checkFile();
         try {
             JSONObject profileJSON = new JSONObject(Files.readString(path));
