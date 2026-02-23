@@ -10,7 +10,8 @@ import picocli.CommandLine.Option;
     description = "Options for configuring Geode CLI",
     subcommands = {
         ConfigSetup.class,
-        ConfigList.class
+        ConfigList.class,
+        ConfigGet.class
     }
 )
 public class Config implements Runnable {
