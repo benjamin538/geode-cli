@@ -19,9 +19,10 @@ import picocli.CommandLine.HelpCommand;
         Profile.class,
         RunProfile.class,
         CreateMod.class,
-        com.benjamin538.config.Config.class
+        com.benjamin538.config.Config.class,
+        picocli.AutoComplete.GenerateCompletion.class
     },
-    version = "geode java 0.25",
+    version = "geode java 0.3",
     mixinStandardHelpOptions = true
 )
 public class Main {
