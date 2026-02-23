@@ -2,6 +2,7 @@ package com.benjamin538.config;
 
 // files
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.io.IOException;
 
@@ -32,7 +33,14 @@ public class ConfigGet implements Runnable {
     @Override
     public void run() {
         try {
-            JSONObject json = new JSONObject(Files.readString(Paths.get(System.getenv("LOCALAPPDATA"), "Geode", "config.json")));
+            Path path;
+            if (System.getenv("LOCALAPPDATA") != null) {
+                path = Paths.get(System.getenv("LOCALAPPDATA"), "Geode", "config.json");
+            }
+            else {
+                path = Paths.get(System.getProperty("user.home"),".local", "share", "Geode", "config.json");
+            }
+            JSONObject json = new JSONObject(Files.readString(path));
             for(String _field : new Config().CONFIGURABLES) {
                 if(_field.equals(field)) {
                     if(raw) {
