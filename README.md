@@ -21,6 +21,7 @@ and yes, it doesnt run on macos
 ## faq
 
 **first question:**
+
 <img src="screenshots/whyarewerewriting.png">
 
 because original cli is broken asf, look
