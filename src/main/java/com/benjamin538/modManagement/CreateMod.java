@@ -96,6 +96,7 @@ public class CreateMod implements Runnable {
                 }
                 zis.closeEntry();
             }
+            stream.close();
             // unzip done, changing da mod.json
             String sdkVersion = new SdkVersion().getVersion();
             JSONObject modJSON = new JSONObject(Files.readString(Paths.get(name, "mod.json")));
@@ -109,14 +110,16 @@ public class CreateMod implements Runnable {
             Files.write(Paths.get(name, "mod.json"), modJSON.toString(4).getBytes());
             if (actions) {
                 Files.createDirectories(Paths.get(name, ".github", "workflows"));
-                Files.write(Paths.get(name, ".github", "workflows", "multi-platform.yaml"), this.getClass().getClassLoader().getResourceAsStream("multi-platform.yaml").readAllBytes());
+                InputStream yamlStream = getClass().getClassLoader().getResourceAsStream("multi-platform.yaml");
+                Files.write(Paths.get(name, ".github", "workflows", "multi-platform.yaml"), yamlStream.readAllBytes());
+                yamlStream.close();
             }
             logger.info("Created project \"" + name + "\".");
             if (sdkVersion.equals("")) {
                 logger.warn("Since program cant find GEODE_SDK, version of SDK in mod.json is set to an empty string. Change this field after installing SDK.");
             }
         } catch (Exception ex) {
-           logger.fatal("Something went wrong: " + ex.getMessage());
+            logger.fatal("Something went wrong: " + ex.getMessage());
         }
     }
 }
