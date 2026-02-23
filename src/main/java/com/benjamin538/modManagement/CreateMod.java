@@ -67,7 +67,14 @@ public class CreateMod implements Runnable {
             String name = logger.askValue("Name", null, true);
             String version = logger.askValue("Version", "v1.0.0", false);
             String developer;
-            if (!Files.exists(Paths.get(System.getenv("LOCALAPPDATA"), "Geode", "config.json"))) {
+            Path path;
+            if (System.getenv("LOCALAPPDATA") != null) {
+                path = Paths.get(System.getenv("LOCALAPPDATA"), "Geode", "config.json");
+            }
+            else {
+                path = Paths.get(System.getProperty("user.home"),".local", "share", "Geode", "config.json");
+            }
+            if (!Files.exists(path)) {
                 developer = logger.askValue("Developer", "", true);
             }
             else if (!CurrentDeveloper.getDev().equals("")) {

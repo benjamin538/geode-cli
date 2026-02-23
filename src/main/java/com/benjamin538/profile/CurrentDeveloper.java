@@ -40,8 +40,14 @@ public abstract class CurrentDeveloper {
         Logging logger = new Logging();
         CheckProfileFile.checkFile();
         try {
-            Path configPath = Paths.get(System.getenv("LOCALAPPDATA"), "Geode", "config.json");
-            JSONObject profileJSON = new JSONObject(Files.readString(configPath));
+            Path path;
+            if (System.getenv("LOCALAPPDATA") != null) {
+                path = Paths.get(System.getenv("LOCALAPPDATA"), "Geode", "config.json");
+            }
+            else {
+                path = Paths.get(System.getProperty("user.home"),".local", "share", "Geode", "config.json");
+            }
+            JSONObject profileJSON = new JSONObject(Files.readString(path));
             String currentProfile = profileJSON.getString("default-developer");
             return currentProfile;
         } catch(Exception ex) {
