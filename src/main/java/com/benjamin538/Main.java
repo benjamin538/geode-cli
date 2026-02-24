@@ -22,7 +22,7 @@ import picocli.CommandLine.HelpCommand;
         com.benjamin538.config.Config.class,
         picocli.AutoComplete.GenerateCompletion.class
     },
-    version = "geode java 0.3",
+    version = "geode java 0.31",
     mixinStandardHelpOptions = true
 )
 public class Main {
