@@ -48,7 +48,7 @@ public class ConfigSet implements Runnable {
                 if (field.equals("sdk-nightly")) {
                     profileJSON.put(field, Boolean.parseBoolean(value));
                 } else if(field.equals("sdk-path")) {
-                    logger.fatal("Set SDK path using `geode sdk set-path");
+                    logger.fatal("Set SDK path using `geode sdk set-path`");
                 }
                  else {
                     profileJSON.put(field, value);
