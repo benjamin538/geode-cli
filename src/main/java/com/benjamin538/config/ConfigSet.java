@@ -42,24 +42,24 @@ public class ConfigSet implements Runnable {
         else {
             configPath = Paths.get(System.getProperty("user.home"),".local", "share", "Geode", "config.json");
         }
-        JSONObject profileJSON = new JSONObject(configPath);
-        for(String _field : Config.CONFIGURABLES) {
-            if (_field.equals(field)) {
-                if (field.equals("sdk-nightly")) {
-                    profileJSON.put(field, Boolean.parseBoolean(value));
-                } else if(field.equals("sdk-path")) {
-                    logger.fatal("Set SDK path using `geode sdk set-path`");
-                }
-                 else {
-                    profileJSON.put(field, value);
-                }
-                try {
+        try {
+            JSONObject profileJSON = new JSONObject(Files.readString(configPath));
+            for(String _field : Config.CONFIGURABLES) {
+                if (_field.equals(field)) {
+                    if (field.equals("sdk-nightly")) {
+                        profileJSON.put(field, Boolean.parseBoolean(value));
+                    } else if(field.equals("sdk-path")) {
+                        logger.fatal("Set SDK path using `geode sdk set-path`");
+                    }
+                     else {
+                        profileJSON.put(field, value);
+                    }
                     Files.write(configPath, profileJSON.toString().getBytes());
                     logger.done("Set " + field + " to " + profileJSON.get(field));
-                } catch (IOException ex) {
-                    logger.fatal("Cant write config.json: " + ex.getMessage());
                 }
             }
+        } catch (IOException ex) {
+            logger.fatal("Cant write config.json: " + ex.getMessage());
         }
         logger.fatal("Unknown field aaa");
     }
