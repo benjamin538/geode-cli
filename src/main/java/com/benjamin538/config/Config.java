@@ -11,13 +11,14 @@ import picocli.CommandLine.Option;
     subcommands = {
         ConfigSetup.class,
         ConfigList.class,
-        ConfigGet.class
+        ConfigGet.class,
+        ConfigSet.class
     }
 )
 public class Config implements Runnable {
     @Option(names = {"-h", "--help"}, usageHelp = true, description = "Print this message or the help of the given subcommand(s)")
     boolean help;
-    public String[] CONFIGURABLES = {
+    public final static String[] CONFIGURABLES = {
         "default-developer",
 	    "sdk-path",
 	    "sdk-nightly",

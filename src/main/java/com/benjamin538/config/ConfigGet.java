@@ -6,6 +6,9 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.io.IOException;
 
+// check file
+import com.benjamin538.util.CheckProfileFile;
+
 // colors!!!!!!!!!!!!
 import com.benjamin538.util.Colors;
 
@@ -40,8 +43,9 @@ public class ConfigGet implements Runnable {
             else {
                 path = Paths.get(System.getProperty("user.home"),".local", "share", "Geode", "config.json");
             }
+            CheckProfileFile.checkFile();
             JSONObject json = new JSONObject(Files.readString(path));
-            for(String _field : new Config().CONFIGURABLES) {
+            for(String _field : Config.CONFIGURABLES) {
                 if(_field.equals(field)) {
                     if(raw) {
                         System.out.println(json.get(field));

@@ -10,7 +10,7 @@ import picocli.CommandLine.Command;
 public class ConfigList implements Runnable {
     @Override
     public void run() {
-        for (String config : new Config().CONFIGURABLES) {
+        for (String config : Config.CONFIGURABLES) {
             System.out.println(config);
         }
     }

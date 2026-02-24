@@ -3,15 +3,19 @@ package com.benjamin538.config;
 // jline
 import org.jline.terminal.Terminal;
 import org.jline.terminal.TerminalBuilder;
-
-import com.benjamin538.profile.AddProfile;
-import com.benjamin538.util.Logging;
-
 import org.jline.consoleui.prompt.builder.PromptBuilder;
 import org.jline.consoleui.prompt.ConsolePrompt;
 
+// adding profile
+import com.benjamin538.profile.AddProfile;
+
+// loggin
+import com.benjamin538.util.Logging;
+
+// file stuff
 import java.nio.file.Files;
 import java.nio.file.Paths;
+
 // java utils
 import java.util.Locale;
 import java.util.Map;
