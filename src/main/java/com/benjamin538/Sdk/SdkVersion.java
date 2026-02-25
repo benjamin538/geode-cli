@@ -44,7 +44,13 @@ public class SdkVersion implements Runnable {
 
     public void setVersion(String version) {
         version = version.replace("\n", "");
-        Path path = Paths.get(System.getenv("LOCALAPPDATA"), "Geode", "config.json");
+        Path path;
+        if (System.getenv("LOCALAPPDATA") != null) {
+            path = Paths.get(System.getenv("LOCALAPPDATA"), "Geode", "config.json");
+        }
+        else {
+            path = Paths.get(System.getProperty("user.home"),".local", "share", "Geode", "config.json");
+        }
         if (!Files.exists(path)) {
             return;
         }

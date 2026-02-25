@@ -3,6 +3,9 @@ package com.benjamin538.Sdk;
 // animation
 import com.benjamin538.LoadingAnim;
 
+// for nightly
+import com.benjamin538.config.ConfigGet;
+
 // da logging
 import com.benjamin538.util.Logging;
 import java.io.PrintWriter;
@@ -16,7 +19,10 @@ import java.io.File;
 
 // git
 import org.eclipse.jgit.api.Git;
+import org.eclipse.jgit.api.ListTagCommand;
+import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.TextProgressMonitor;
+import org.eclipse.jgit.api.CheckoutCommand;
 import org.eclipse.jgit.api.CloneCommand;
 
 // picocli
@@ -54,7 +60,22 @@ public class InstallSdk implements Runnable {
             if(verbose) {
                 command.setProgressMonitor(new TextProgressMonitor(new PrintWriter(System.out)));
             }
-            command.call();
+            Git git = command.call();
+            String latest = null;
+            if(!ConfigGet.getSdkNightly()) {
+                ListTagCommand listCommand = git.tagList();
+                for(Ref tag : listCommand.call()) {
+                    String tagName = tag.getName().replace("refs/tags/", "");
+                    if(tagName.startsWith("v")) {
+                        if(latest == null || tagName.compareTo(latest) > 0 ) {
+                            latest = tagName;
+                        }
+                    }
+                }
+                CheckoutCommand checkout = git.checkout();
+                checkout.setName(latest);
+                checkout.call();
+            }
             SetSdkPath setsdk = new SetSdkPath();
             setsdk.setPath(newPath.toAbsolutePath().toString());
             new SdkVersion().setVersion(new SdkVersion().getVersion());
