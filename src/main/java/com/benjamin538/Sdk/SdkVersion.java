@@ -35,7 +35,7 @@ public class SdkVersion implements Runnable {
     public String getVersion() {
         try {
             Path path = Paths.get(System.getenv("GEODE_SDK"), "VERSION");
-            return Files.readString(path).replace("\n", "");
+            return Files.readString(path).replace("\n", "").replace("\r", "");
         } catch(Exception ex) {
             logger.fail("Unable to get SDK version: " + ex.getMessage());
             return "";
