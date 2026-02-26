@@ -56,11 +56,12 @@ public class ConfigSet implements Runnable {
                     }
                     Files.write(configPath, profileJSON.toString().getBytes());
                     logger.done("Set " + field + " to " + profileJSON.get(field));
+                    return;
                 }
             }
         } catch (IOException ex) {
             logger.fatal("Cant write config.json: " + ex.getMessage());
         }
-        logger.fatal("Unknown field aaa");
+        logger.fatal("Unknown field " + field);
     }
 }

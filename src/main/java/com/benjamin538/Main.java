@@ -1,9 +1,13 @@
 package com.benjamin538;
 
+// commands
 import com.benjamin538.Sdk.Sdk;
-import com.benjamin538.modManagement.CreateMod;
+import com.benjamin538.index.Index;
 import com.benjamin538.profile.Profile;
 import com.benjamin538.profile.RunProfile;
+import com.benjamin538.project.CreateMod;
+import com.benjamin538.config.Config;
+import com.benjamin538.project.Project;
 
 // picocli
 import picocli.CommandLine;
@@ -19,8 +23,10 @@ import picocli.CommandLine.HelpCommand;
         Profile.class,
         RunProfile.class,
         CreateMod.class,
-        com.benjamin538.config.Config.class,
-        picocli.AutoComplete.GenerateCompletion.class
+        Config.class,
+        Project.class,
+        picocli.AutoComplete.GenerateCompletion.class,
+        Index.class
     },
     version = "geode java 0.31",
     mixinStandardHelpOptions = true

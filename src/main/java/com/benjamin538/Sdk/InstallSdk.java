@@ -80,6 +80,8 @@ public class InstallSdk implements Runnable {
             setsdk.setPath(newPath.toAbsolutePath().toString());
             new SdkVersion().setVersion(new SdkVersion().getVersion());
             anim.stop();
+            git.getRepository().close();
+            git.close();
             logger.done("Successfully installed SDK");
             logger.info("Please restart your command line to have the GEODE_SDK enviroment variable set.");
             logger.info("Use `geode sdk install-binaries` to install pre-built binaries");

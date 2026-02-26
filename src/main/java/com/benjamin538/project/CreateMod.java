@@ -1,4 +1,4 @@
-package com.benjamin538.modManagement;
+package com.benjamin538.project;
 
 // versionnnnn
 import com.benjamin538.Sdk.SdkVersion;
