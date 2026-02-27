@@ -123,6 +123,10 @@ public class CheckDeps implements Runnable {
                     }
                 }
                 zipFile.close();
+                Path depOptionsPath = Paths.get("build", "geode-deps", mod, "geode-dep-options.json");
+                JSONObject depJSON = new JSONObject();
+                depJSON.put("required", true);
+                Files.write(depOptionsPath, depJSON.toString().getBytes());
             }
             client.close();
             logger.done("All dependencies resolved");
