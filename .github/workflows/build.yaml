@@ -53,7 +53,7 @@ jobs:
           tag_name: auto-build
           name: unstable build
           prerelease: true
-          files: target/${{ matrix.file }}
+          files: target/geode-${{ matrix.file }}
           body: |
             auto builded from ${{ github.sha }}
             thats all
