@@ -28,6 +28,7 @@ jobs:
         with:
           tag_name: auto-build
           name: unstable build
+          prerelease: true
           files: target/geode-*.jar
           body: |
             auto builded from ${{ github.sha }}
