@@ -80,4 +80,24 @@ public class ConfigGet implements Runnable {
             return false;
         }
     }
+
+    public static final String getIndexURL() {
+        try {
+            Path path;
+            if (System.getenv("LOCALAPPDATA") != null) {
+                path = Paths.get(System.getenv("LOCALAPPDATA"), "Geode", "config.json");
+            }
+            else {
+                path = Paths.get(System.getProperty("user.home"),".local", "share", "Geode", "config.json");
+            }
+            if(!Files.exists(path)) {
+                logger.fail("No Geode profiles found! Setup one by using `geode config setup`");
+                return "https://api.geode-sdk.org";
+            }
+            return new JSONObject(Files.readString(path)).getString("index-url");
+        } catch(Exception ex) {
+            logger.fail("No Geode profiles found! Setup one by using `geode config setup`");
+            return "https://api.geode-sdk.org";
+        }
+    }
 }
