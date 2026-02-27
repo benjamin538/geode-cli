@@ -17,7 +17,7 @@ jobs:
             arch: x64
             suffix: linux-x64
             file: geode
-          - os: ubuntu-latest
+          - os: ubuntu-24.04-arm
             arch: aarch64
             suffix: linux-aarch64
             file: geode
