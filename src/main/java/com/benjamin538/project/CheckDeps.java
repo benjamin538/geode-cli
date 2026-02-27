@@ -77,15 +77,14 @@ public class CheckDeps implements Runnable {
         }
         try {
             Iterator<String> keys = dependencies.keys();
+            HttpClient client = HttpClient.newBuilder().followRedirects(HttpClient.Redirect.NORMAL).build();
             while(keys.hasNext()) {
                 String mod = keys.next();
                 Path tempPath = Paths.get(System.getProperty("java.io.tmpdir"), mod + ".geode");
                 Path buildPath = Paths.get("build", "geode-deps", mod);
                 // netttttt
                 String url = ConfigGet.getIndexURL() + "/v1/mods/" + mod + "/versions";
-                HttpClient client = HttpClient.newBuilder().followRedirects(HttpClient.Redirect.NORMAL).build();
                 if(!Files.exists(tempPath)) {
-                    logger.info("Fetching " + mod);
                     HttpRequest request = HttpRequest.newBuilder().uri(URI.create(url)).header("User-Agent", "GeodeCLI").GET().build();
                     HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
                     if (response.statusCode() != 200) {
@@ -100,12 +99,12 @@ public class CheckDeps implements Runnable {
                     HttpRequest downloadReq = HttpRequest.newBuilder().uri(URI.create(downloadLink)).header("User-Agent", "GeodeCLI").GET().build();
                     Files.createDirectories(buildPath);
                     client.send(downloadReq, HttpResponse.BodyHandlers.ofFile(tempPath));
-                    client.close();
                     logger.done(mod + " installed");
                 }
                 else {
                     logger.info("Dependency '" + mod + "' found in cache");
                 }
+                
                 ZipFile zipFile = new ZipFile(tempPath.toFile());
                 Enumeration<? extends ZipEntry> entries = zipFile.entries();
                 while (entries.hasMoreElements()) {
@@ -125,6 +124,7 @@ public class CheckDeps implements Runnable {
                 }
                 zipFile.close();
             }
+            client.close();
             logger.done("All dependencies resolved");
         } catch(JSONException ex) {
             logger.fatal("JSON failed: " + ex.getMessage());
