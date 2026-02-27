@@ -23,7 +23,7 @@ jobs:
             file: geode
           - os: windows-latest
             arch: x64
-            suffix: win-x64
+            suffix: win-x64.exe
             file: geode.exe
 
     steps:
@@ -43,6 +43,9 @@ jobs:
 
       - name: build w/ maven
         run: mvn package -Pnative
+
+      - name: rename files
+        run: mv target/${{ matrix.file }} target/geode-${{ matrix.suffix }}
 
       - name: release
         uses: softprops/action-gh-release@v2
