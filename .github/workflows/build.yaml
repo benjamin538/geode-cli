@@ -4,6 +4,9 @@ on:
   push:
     branches: [master]
 
+permissions:
+  contents: write
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -19,3 +22,13 @@ jobs:
 
       - name: build w/ maven
         run: mvn package
+
+      - name: release
+        uses: softprops/actions-gh-release@v2
+        with:
+          tag_name: auto-build
+          name: unstable build
+          files: target/geode-*.jar
+          body: |
+            auto builded from ${{ github.sha }}
+            thats all
