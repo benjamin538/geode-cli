@@ -17,14 +17,17 @@ jobs:
             arch: x64
             suffix: linux-x64
             file: geode
+            args: ''
           - os: ubuntu-24.04-arm
             arch: aarch64
             suffix: linux-aarch64
             file: geode
+            args: '-march=armv8-a --static --libc=musl'
           - os: windows-latest
             arch: x64
             suffix: win-x64.exe
             file: geode.exe
+            args: ''
 
     steps:
       - uses: actions/checkout@v4
@@ -42,10 +45,11 @@ jobs:
           key: \( {{ runner.os }}- \){{ matrix.suffix }}-maven-${{ hashFiles('**/pom.xml') }}
 
       - name: musl
+        if: matrix.suffix == 'linux-aarch64'
         run: sudo apt update && sudo apt install -y musl-tools
 
       - name: build w/ maven
-        run: mvn package -Pnative -Dnative-image.build-args='-march=armv8-a --static --libc=musl'
+        run: mvn package -Pnative -Dnative-image.build-args='${{ matrix.args }}'
 
       - name: rename files
         run: mv target/${{ matrix.file }} target/geode-${{ matrix.suffix }}
