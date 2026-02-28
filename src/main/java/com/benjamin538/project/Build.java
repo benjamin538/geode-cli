@@ -67,6 +67,7 @@ public class Build implements Runnable {
         ArrayList<String> args = new ArrayList<>();
         args.add("cmake");
         switch(platform) {
+            case OS.win:
             case OS.windows:
             case OS.linux:
                 if(crossCompiling) {
