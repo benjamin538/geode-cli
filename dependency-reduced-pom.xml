@@ -75,7 +75,6 @@
                 <buildArg>-Os</buildArg>
                 <buildArg>-H:IncludeResources=defaultTemplate.zip|minimalTemplate.zip|consoleui_messages.*|multi-platform.yaml</buildArg>
                 <buildArg>--enable-native-access=ALL-UNNAMED</buildArg>
-                <buildArg>-H:NativeLinkerOption="${project.basedir}\src\main\resources\app.res"</buildArg>
               </buildArgs>
             </configuration>
           </plugin>

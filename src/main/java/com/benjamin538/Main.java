@@ -5,6 +5,7 @@ import com.benjamin538.Sdk.Sdk;
 import com.benjamin538.index.Index;
 import com.benjamin538.profile.Profile;
 import com.benjamin538.profile.RunProfile;
+import com.benjamin538.project.Build;
 import com.benjamin538.project.CreateMod;
 import com.benjamin538.config.Config;
 import com.benjamin538.project.Project;
@@ -26,9 +27,10 @@ import picocli.CommandLine.HelpCommand;
         Config.class,
         Project.class,
         picocli.AutoComplete.GenerateCompletion.class,
-        Index.class
+        Index.class,
+        Build.class
     },
-    version = "geode java 0.31",
+    version = "geode 2.1",
     mixinStandardHelpOptions = true
 )
 public class Main {

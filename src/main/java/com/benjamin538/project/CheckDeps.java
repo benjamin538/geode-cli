@@ -40,16 +40,6 @@ import java.util.zip.ZipFile;
 )
 public class CheckDeps implements Runnable {
     private Logging logger = new Logging();
-    enum OS {
-        windows,
-        mac_os,
-        mac_intel,
-        mac_arm,
-        android,
-        android32,
-        android64,
-        ios
-    }
     @Option(names = {"-h", "--help"}, description = "Print help", usageHelp = true)
     boolean help;
     @Option(names = {"-p", "--platform"}, description = "The platform checked used for platform-specific dependencies. If not specified, uses current host platform if possible")
@@ -60,7 +50,7 @@ public class CheckDeps implements Runnable {
     @Override
     public void run() {
         if(platform == null) {
-            platform = detectOS();
+            platform = DetectOS.detectOS();
         }
         JSONObject modJSON = new JSONObject();
         try {
@@ -138,19 +128,5 @@ public class CheckDeps implements Runnable {
             logger.fatal("Client error: " + ex.getMessage());
         }
         // i cant believe that it IS working ❤️‍🩹
-    }
-
-    private OS detectOS() {
-        String osName = System.getProperty("os.name").toLowerCase();
-        String arch = System.getProperty("os.arch").toLowerCase();
-
-        if (osName.contains("win")) return OS.windows;
-        if (osName.contains("mac")) {
-            if (arch.contains("aarch64") || arch.contains("arm")) return OS.mac_arm;
-            return OS.mac_intel;
-        }
-        if (osName.contains("android")) return OS.android;
-
-        return OS.windows;
     }
 }

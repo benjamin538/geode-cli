@@ -12,6 +12,9 @@ import java.util.zip.ZipInputStream;
 import java.nio.file.Files;
 import java.io.InputStream;
 
+// OS
+import com.benjamin538.project.OS;
+
 // net stuff
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
@@ -36,11 +39,21 @@ public class InstallBinaries implements Runnable {
     private Logging logger = new Logging();
     @Option(names = {"-h", "--help"}, description = "Print help", usageHelp = true)
     boolean help;
+    @Option(names = {"-p", "--platform"}, description = "Force platform to install binaries for")
+    void setPlatform(String s) {
+        platform = OS.valueOf(s.replace("-", "_"));
+    }
+    OS platform;
     @Override
     public void run() {
         LoadingAnim anim = new LoadingAnim();
         try {
-            String os = System.getProperty("os.name").toLowerCase().replaceAll("[0-9]", "").replace(" ", "");
+            String os;
+            if(platform == null) {
+                os = System.getProperty("os.name").toLowerCase().replaceAll("[0-9]", "").replace(" ", "");
+            } else {
+                os = platform.toString();
+            }
             Path path = Paths.get(System.getenv("GEODE_SDK"), "VERSION");
             InputStream stream = Files.newInputStream(path);
             String version = new SdkVersion().getVersion();
@@ -63,6 +76,17 @@ public class InstallBinaries implements Runnable {
                     case "win":
                     case "linux":
                         if (name.toLowerCase().contains("-win")) {
+                            downloadUrl = item.getString("browser_download_url");
+                            break;
+                        }
+                    case "android":
+                    case "android64":
+                        if (name.toLowerCase().contains("-android64")) {
+                            downloadUrl = item.getString("browser_download_url");
+                            break;
+                        }
+                    case "android32":
+                        if (name.toLowerCase().contains("-android32")) {
                             downloadUrl = item.getString("browser_download_url");
                             break;
                         }
