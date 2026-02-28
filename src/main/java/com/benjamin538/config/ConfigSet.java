@@ -25,7 +25,7 @@ import picocli.CommandLine.Option;
     description = "Set value"
 )
 public class ConfigSet implements Runnable {
-    private Logging logger = new Logging();
+    private static Logging logger = new Logging();
     @Option(names = {"-h", "--help"}, description = "Print help", usageHelp = true)
     boolean help;
     @Parameters(description = "Field to get")
@@ -63,5 +63,22 @@ public class ConfigSet implements Runnable {
             logger.fatal("Cant write config.json: " + ex.getMessage());
         }
         logger.fatal("Unknown field " + field);
+    }
+
+    public static void setSdkNightly(boolean nightly) {
+        Path configPath;
+        if (System.getenv("LOCALAPPDATA") != null) {
+            configPath = Paths.get(System.getenv("LOCALAPPDATA"), "Geode", "config.json");
+        }
+        else {
+            configPath = Paths.get(System.getProperty("user.home"),".local", "share", "Geode", "config.json");
+        }
+        try {
+            JSONObject profileJSON = new JSONObject(Files.readString(configPath));
+            profileJSON.put("sdk-nightly", nightly);
+            Files.write(configPath, profileJSON.toString().getBytes());
+        } catch (IOException ex) {
+            return;
+        }
     }
 }
