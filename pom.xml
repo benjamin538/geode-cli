@@ -33,6 +33,8 @@
                   <buildArg>-H:IncludeResources=defaultTemplate.zip|minimalTemplate.zip|consoleui_messages.*|multi-platform.yaml</buildArg>
                   <buildArg>--enable-native-access=ALL-UNNAMED</buildArg>
                   <buildArg>--no-fallback</buildArg>
+                  <buildArg>-H:-StackTrace</buildArg>
+                  <buildArg>-H:+StripDebugInfo</buildArg>
                 </buildArgs>
               </configuration>
             </plugin>
