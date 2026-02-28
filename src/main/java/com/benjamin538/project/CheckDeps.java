@@ -27,9 +27,12 @@ import com.benjamin538.util.Logging;
 // picocli
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
+import picocli.CommandLine.Parameters;
 
-import java.util.Enumeration;
 // java utils
+import java.util.Set;
+import java.util.HashSet;
+import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
@@ -47,6 +50,10 @@ public class CheckDeps implements Runnable {
         platform = OS.valueOf(s.replace("-", "_"));
     }
     OS platform;
+    @Parameters(description = "Where to install the dependencies; usually the project's build directory. A directory called geode-deps will be created inside the specified installation directory. If not specified, \"build\" is assumed", defaultValue = "build")
+    String folder;
+    @Option(names = {"--externals"}, description = "Any external dependencies as a list in the form of `mod.id:version`. An external dependency is one that the CLI will not verify exists in any way; it will just assume you have it installed through some other means (usually through building it as part of the same project)")
+    Set<String> externals = new HashSet<>();
     @Override
     public void run() {
         if(platform == null) {
@@ -65,13 +72,20 @@ public class CheckDeps implements Runnable {
         } catch(JSONException ex) {
             logger.fatal("Dependencies not found");
         }
+        if(dependencies.isEmpty()) {
+            return;
+        }
         try {
             Iterator<String> keys = dependencies.keys();
             HttpClient client = HttpClient.newBuilder().followRedirects(HttpClient.Redirect.NORMAL).build();
             while(keys.hasNext()) {
                 String mod = keys.next();
+                String modVersion = dependencies.getString(mod);
+                if(externals.contains(mod + ":" + modVersion)) {
+                    continue;
+                }
                 Path tempPath = Paths.get(System.getProperty("java.io.tmpdir"), mod + ".geode");
-                Path buildPath = Paths.get("build", "geode-deps", mod);
+                Path buildPath = Paths.get(folder, "geode-deps", mod);
                 // netttttt
                 String url = ConfigGet.getIndexURL() + "/v1/mods/" + mod + "/versions";
                 if(!Files.exists(tempPath)) {

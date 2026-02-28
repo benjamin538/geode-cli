@@ -30,7 +30,7 @@ import picocli.CommandLine.HelpCommand;
         Index.class,
         Build.class
     },
-    version = "geode 2.1",
+    version = "geode 3.2.0",
     mixinStandardHelpOptions = true
 )
 public class Main {
