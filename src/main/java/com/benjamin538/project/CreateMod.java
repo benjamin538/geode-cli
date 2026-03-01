@@ -85,6 +85,7 @@ public class CreateMod implements Runnable {
             }
             String description = logger.askValue("Description", "", false);
             boolean actions = logger.askConfirm("Do you want to add the cross-platform Github action?", true);
+            boolean strip = logger.askConfirm("Do you want to remove comments from the defaul template?", false);
             logger.info("Creating project...");
             InputStream stream = getClass().getClassLoader().getResourceAsStream(selected + ".zip");
             Files.createDirectory(Paths.get(name));
@@ -120,6 +121,14 @@ public class CreateMod implements Runnable {
                 InputStream yamlStream = getClass().getClassLoader().getResourceAsStream("multi-platform.yaml");
                 Files.write(Paths.get(name, ".github", "workflows", "multi-platform.yaml"), yamlStream.readAllBytes());
                 yamlStream.close();
+            }
+            if (strip) {
+                Path cmake = Paths.get(name, "CMakeLists.txt");
+                Path cpp = Paths.get(name, "src", "main.cpp");
+                String cmake_regex = "\n#.*";
+                String cpp_regex = "(?m)^.*/\\*[\\s\\S]*?\\*/\\r?\\n?|^.*//.*\\r?\\n?";
+                Files.write(cmake, Files.readString(cmake).replaceAll(cmake_regex, "").getBytes());
+                Files.write(cpp, Files.readString(cpp).replaceAll(cpp_regex, "").getBytes());
             }
             logger.info("Created project \"" + name + "\".");
             if (sdkVersion.equals("")) {
