@@ -7,7 +7,10 @@ import picocli.CommandLine.Option;
 
 @Command(
     name = "index",
-    description = "Tools for interacting with the Geode mod index"
+    description = "Tools for interacting with the Geode mod index",
+    subcommands = {
+        IndexUrl.class
+    }
 )
 public class Index implements Runnable {
     @Option(names = {"-h", "--help"}, description = "Print help", usageHelp = true)

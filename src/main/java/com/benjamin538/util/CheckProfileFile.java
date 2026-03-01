@@ -7,6 +7,7 @@ import java.nio.file.Paths;
 
 // json exception
 import org.json.JSONException;
+import org.json.JSONObject;
 
 public abstract class CheckProfileFile {
     public static void checkFile() {
@@ -27,6 +28,7 @@ public abstract class CheckProfileFile {
                 logger.fatal("No Geode profiles found! Setup one by using `geode config setup`");
                 return;
             }
+            JSONObject profileJSON = new JSONObject(Files.readString(configPath));
         } catch(JSONException ex) {
             logger.fatal("Profiles file invalid");
             return;
