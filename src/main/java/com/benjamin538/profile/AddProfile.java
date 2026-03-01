@@ -12,6 +12,9 @@ import java.nio.file.Path;
 import org.json.JSONObject;
 import org.json.JSONArray;
 
+// config path
+import com.benjamin538.config.ConfigPath;
+
 // picocli
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
@@ -44,7 +47,7 @@ public class AddProfile implements Runnable {
             logger.fatal("Geometry Dash executable not found");
             return;
         }
-        Path configPath = Paths.get(System.getenv("LOCALAPPDATA"), "Geode", "config.json");
+        Path configPath = ConfigPath.path();
         if (!Files.exists(configPath)) {
             try {
                 Files.createDirectories(Paths.get(System.getenv("LOCALAPPDATA"), "Geode"));
@@ -79,7 +82,7 @@ public class AddProfile implements Runnable {
                 String os = System.getProperty("os.name").toLowerCase().replaceAll("[0-9]", "").replace(" ", "");
                 JSONObject profileJSON = new JSONObject(Files.readString(configPath));
                 JSONArray profileList = profileJSON.getJSONArray("profiles");
-                
+
                 for(int i = 0; i < profileList.length(); i++) {
                     if (profileList.getJSONObject(i).getString("name").equals(name)) {
                         logger.fatal("Profile '" + name + "'' is already exist");
@@ -113,13 +116,7 @@ public class AddProfile implements Runnable {
             logger.fatal("Geometry Dash executable not found");
             return;
         }
-        Path configPath;
-        if (System.getenv("LOCALAPPDATA") != null) {
-            configPath = Paths.get(System.getenv("LOCALAPPDATA"), "Geode", "config.json");
-        }
-        else {
-            configPath = Paths.get(System.getProperty("user.home"),".local", "share", "Geode", "config.json");
-        }
+        Path configPath = ConfigPath.path();
         if (!Files.exists(configPath)) {
             try {
                 Files.createDirectories(Paths.get(System.getenv("LOCALAPPDATA"), "Geode"));
@@ -149,7 +146,7 @@ public class AddProfile implements Runnable {
             try {
                 JSONObject profileJSON = new JSONObject(Files.readString(configPath));
                 JSONArray profileList = profileJSON.getJSONArray("profiles");
-                
+
                 for(int i = 0; i < profileList.length(); i++) {
                     if (profileList.getJSONObject(i).getString("name").equals(name)) {
                         logger.fatal("Profile '" + name + "'' is already exist");

@@ -87,7 +87,7 @@ public class CheckDeps implements Runnable {
                 Path tempPath = Paths.get(System.getProperty("java.io.tmpdir"), mod + ".geode");
                 Path buildPath = Paths.get(folder, "geode-deps", mod);
                 // netttttt
-                String url = ConfigGet.getIndexURL() + "/v1/mods/" + mod + "/versions";
+                String url = ConfigGet.getIndexUrl() + "/v1/mods/" + mod + "/versions";
                 if(!Files.exists(tempPath)) {
                     HttpRequest request = HttpRequest.newBuilder().uri(URI.create(url)).header("User-Agent", "GeodeCLI").GET().build();
                     HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());

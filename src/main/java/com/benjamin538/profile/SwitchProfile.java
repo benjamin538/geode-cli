@@ -13,6 +13,9 @@ import com.benjamin538.util.CheckProfileFile;
 // da logging
 import com.benjamin538.util.Logging;
 
+// c
+import com.benjamin538.config.ConfigPath;
+
 // picocli
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
@@ -30,13 +33,7 @@ public class SwitchProfile implements Runnable {
     boolean help;
     @Override
     public void run() {
-        Path path;
-        if (System.getenv("LOCALAPPDATA") != null) {
-            path = Paths.get(System.getenv("LOCALAPPDATA"), "Geode", "config.json");
-        }
-        else {
-            path = Paths.get(System.getProperty("user.home"),".local", "share", "Geode", "config.json");
-        }
+        Path path = ConfigPath.path();
         CheckProfileFile.checkFile();
         try {
             JSONObject profileJSON = new JSONObject(Files.readString(path));

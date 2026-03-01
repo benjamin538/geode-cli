@@ -35,13 +35,7 @@ public class ConfigSet implements Runnable {
     @Override
     public void run() {
         CheckProfileFile.checkFile();
-        Path configPath;
-        if (System.getenv("LOCALAPPDATA") != null) {
-            configPath = Paths.get(System.getenv("LOCALAPPDATA"), "Geode", "config.json");
-        }
-        else {
-            configPath = Paths.get(System.getProperty("user.home"),".local", "share", "Geode", "config.json");
-        }
+        Path configPath = ConfigPath.path();
         try {
             JSONObject profileJSON = new JSONObject(Files.readString(configPath));
             for(String _field : Config.CONFIGURABLES) {
@@ -50,6 +44,8 @@ public class ConfigSet implements Runnable {
                         profileJSON.put(field, Boolean.parseBoolean(value));
                     } else if(field.equals("sdk-path")) {
                         logger.fatal("Set SDK path using `geode sdk set-path`");
+                    } else if(field.equals("index-url")) {
+                        logger.fatal("Set Index URL using `geode index url`");
                     }
                      else {
                         profileJSON.put(field, value);
@@ -66,19 +62,37 @@ public class ConfigSet implements Runnable {
     }
 
     public static void setSdkNightly(boolean nightly) {
-        Path configPath;
-        if (System.getenv("LOCALAPPDATA") != null) {
-            configPath = Paths.get(System.getenv("LOCALAPPDATA"), "Geode", "config.json");
-        }
-        else {
-            configPath = Paths.get(System.getProperty("user.home"),".local", "share", "Geode", "config.json");
-        }
+        Path configPath = ConfigPath.path();
         try {
             JSONObject profileJSON = new JSONObject(Files.readString(configPath));
             profileJSON.put("sdk-nightly", nightly);
             Files.write(configPath, profileJSON.toString().getBytes());
         } catch (IOException ex) {
             return;
+        }
+    }
+
+    public static void setIndexToken(String token) {
+       CheckProfileFile.checkFile();
+       Path path = ConfigPath.path();
+       try {
+           JSONObject profileJSON = new JSONObject(Files.readString(path));
+           profileJSON.put("index-token", token);
+           Files.write(path, profileJSON.toString().getBytes());
+       } catch (IOException ex) {
+           logger.fatal("Failed to write token: " + ex.getMessage());
+       }
+    }
+
+    public static void setIndexUrl(String url) {
+        CheckProfileFile.checkFile();
+        Path path = ConfigPath.path();
+        try {
+            JSONObject profileJSON = new JSONObject(Files.readString(path));
+            profileJSON.put("index-url", url);
+            Files.write(path, profileJSON.toString().getBytes());
+        } catch (IOException ex) {
+            logger.fatal("Failed to write token: " + ex.getMessage());
         }
     }
 }

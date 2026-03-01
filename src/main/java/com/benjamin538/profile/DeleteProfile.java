@@ -12,6 +12,9 @@ import org.json.JSONArray;
 // file check
 import com.benjamin538.util.CheckProfileFile;
 
+// comfig
+import com.benjamin538.config.ConfigPath;
+
 // da logging
 import com.benjamin538.util.Logging;
 
@@ -34,13 +37,7 @@ public class DeleteProfile implements Runnable {
     public void run() {
         try {
             int index = 0;
-            Path path;
-            if (System.getenv("LOCALAPPDATA") != null) {
-                path = Paths.get(System.getenv("LOCALAPPDATA"), "Geode", "config.json");
-            }
-            else {
-                path = Paths.get(System.getProperty("user.home"),".local", "share", "Geode", "config.json");
-            }
+            Path path = ConfigPath.path();
             CheckProfileFile.checkFile();
             JSONObject profileJSON = new JSONObject(Files.readString(path));
             JSONArray profileArray = profileJSON.getJSONArray("profiles");

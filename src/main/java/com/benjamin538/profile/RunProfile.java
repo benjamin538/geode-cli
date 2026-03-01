@@ -12,6 +12,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+// conf
+import com.benjamin538.config.ConfigPath;
+
 // json
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -51,13 +54,7 @@ public class RunProfile implements Runnable {
                 logger.fatal("Impossible argument combination (background and stay)");
             }
             String os = System.getProperty("os.name").toLowerCase().replaceAll("[0-9]", "").replace(" ", "");
-            Path path;
-            if (System.getenv("LOCALAPPDATA") != null) {
-                path = Paths.get(System.getenv("LOCALAPPDATA"), "Geode", "config.json");
-            }
-            else {
-                path = Paths.get(System.getProperty("user.home"),".local", "share", "Geode", "config.json");
-            }
+            Path path = ConfigPath.path();
             CheckProfileFile.checkFile();
             JSONObject profileJSON = new JSONObject(Files.readString(path));
             JSONArray profileArray = profileJSON.getJSONArray("profiles");

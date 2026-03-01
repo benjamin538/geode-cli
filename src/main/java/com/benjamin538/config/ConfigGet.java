@@ -36,13 +36,7 @@ public class ConfigGet implements Runnable {
     @Override
     public void run() {
         try {
-            Path path;
-            if (System.getenv("LOCALAPPDATA") != null) {
-                path = Paths.get(System.getenv("LOCALAPPDATA"), "Geode", "config.json");
-            }
-            else {
-                path = Paths.get(System.getProperty("user.home"),".local", "share", "Geode", "config.json");
-            }
+            Path path = ConfigPath.path();
             CheckProfileFile.checkFile();
             JSONObject json = new JSONObject(Files.readString(path));
             for(String _field : Config.CONFIGURABLES) {
@@ -61,15 +55,9 @@ public class ConfigGet implements Runnable {
         }
     }
 
-    public static final boolean getSdkNightly() {
+    public static boolean getSdkNightly() {
         try {
-            Path path;
-            if (System.getenv("LOCALAPPDATA") != null) {
-                path = Paths.get(System.getenv("LOCALAPPDATA"), "Geode", "config.json");
-            }
-            else {
-                path = Paths.get(System.getProperty("user.home"),".local", "share", "Geode", "config.json");
-            }
+            Path path = ConfigPath.path();
             if(!Files.exists(path)) {
                 logger.fail("No Geode profiles found! Setup one by using `geode config setup`");
                 return false;
@@ -81,23 +69,27 @@ public class ConfigGet implements Runnable {
         }
     }
 
-    public static final String getIndexURL() {
+    public static String getIndexUrl() {
         try {
-            Path path;
-            if (System.getenv("LOCALAPPDATA") != null) {
-                path = Paths.get(System.getenv("LOCALAPPDATA"), "Geode", "config.json");
-            }
-            else {
-                path = Paths.get(System.getProperty("user.home"),".local", "share", "Geode", "config.json");
-            }
+            Path path = ConfigPath.path();
             if(!Files.exists(path)) {
-                logger.fail("No Geode profiles found! Setup one by using `geode config setup`");
                 return "https://api.geode-sdk.org";
             }
             return new JSONObject(Files.readString(path)).getString("index-url");
         } catch(Exception ex) {
-            logger.fail("No Geode profiles found! Setup one by using `geode config setup`");
             return "https://api.geode-sdk.org";
+        }
+    }
+
+    public static String getIndexToken() {
+        try {
+            Path path = ConfigPath.path();
+            if(!Files.exists(path)) {
+                return "";
+            }
+            return new JSONObject(Files.readString(path)).getString("index-token");
+        } catch(Exception ex) {
+            return "";
         }
     }
 }

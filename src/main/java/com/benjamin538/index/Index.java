@@ -9,7 +9,8 @@ import picocli.CommandLine.Option;
     name = "index",
     description = "Tools for interacting with the Geode mod index",
     subcommands = {
-        IndexUrl.class
+        IndexUrl.class,
+        IndexLogin.class
     }
 )
 public class Index implements Runnable {

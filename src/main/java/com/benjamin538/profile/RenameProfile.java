@@ -20,6 +20,9 @@ import picocli.CommandLine.Command;
 import picocli.CommandLine.Parameters;
 import picocli.CommandLine.Option;
 
+// config path
+import com.benjamin538.config.ConfigPath;
+
 @Command(
     name = "rename",
     description = "Rename profile"
@@ -35,13 +38,7 @@ public class RenameProfile implements Runnable {
     @Override
     public void run() {
         try {
-            Path path;
-            if (System.getenv("LOCALAPPDATA") != null) {
-                path = Paths.get(System.getenv("LOCALAPPDATA"), "Geode", "config.json");
-            }
-            else {
-                path = Paths.get(System.getProperty("user.home"),".local", "share", "Geode", "config.json");
-            }
+            Path path = ConfigPath.path();
             CheckProfileFile.checkFile();
             JSONObject profileJSON = new JSONObject(Files.readString(path));
             JSONArray profileArray = profileJSON.getJSONArray("profiles");

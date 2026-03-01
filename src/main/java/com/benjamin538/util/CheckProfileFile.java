@@ -5,6 +5,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+// gifnoc
+import com.benjamin538.config.ConfigPath;
+
 // json exception
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -12,13 +15,7 @@ import org.json.JSONObject;
 public abstract class CheckProfileFile {
     public static void checkFile() {
         Logging logger = new Logging();
-        Path configPath;
-        if (System.getenv("LOCALAPPDATA") != null) {
-            configPath = Paths.get(System.getenv("LOCALAPPDATA"), "Geode", "config.json");
-        }
-        else {
-            configPath = Paths.get(System.getProperty("user.home"),".local", "share", "Geode", "config.json");
-        }
+        Path configPath = ConfigPath.path();
         if(!Files.exists(configPath)) {
             logger.fatal("No Geode profiles found! Setup one by using `geode config setup`");
             return;

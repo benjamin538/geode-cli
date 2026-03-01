@@ -6,6 +6,9 @@ import java.nio.file.Paths;
 import java.io.IOException;
 import java.nio.file.Files;
 
+// config
+import com.benjamin538.config.ConfigPath;
+
 // json
 import org.json.JSONObject;
 
@@ -44,13 +47,7 @@ public class SdkVersion implements Runnable {
 
     public void setVersion(String version) {
         version = version.replace("\n", "");
-        Path path;
-        if (System.getenv("LOCALAPPDATA") != null) {
-            path = Paths.get(System.getenv("LOCALAPPDATA"), "Geode", "config.json");
-        }
-        else {
-            path = Paths.get(System.getProperty("user.home"),".local", "share", "Geode", "config.json");
-        }
+        Path path = ConfigPath.path();
         if (!Files.exists(path)) {
             return;
         }
