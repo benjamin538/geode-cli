@@ -88,9 +88,9 @@ public class RunProfile implements Runnable {
         }
         args.addAll(arguments);
         ProcessBuilder builder = new ProcessBuilder(args);
+        builder.inheritIO();
         Process process = builder.start();
         if (!background) {
-            builder.inheritIO();
             process.waitFor();
         }
         if (stay) {
