@@ -44,6 +44,9 @@ public class Build implements Runnable {
     Set<String> extraConfArgs = new HashSet<>();
     @Override
     public void run() {
+        if (platform == null) {
+            platform = DetectOS.detectOS();
+        }
         Path CMakePath = Paths.get("CMakeLists.txt");
         if(!Files.exists(CMakePath)) {
             logger.fatal("Could not find CMakeLists.txt. Please run this within a Geode project!");

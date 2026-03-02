@@ -9,6 +9,7 @@ import com.benjamin538.project.Build;
 import com.benjamin538.project.CreateMod;
 import com.benjamin538.config.Config;
 import com.benjamin538.project.Project;
+import com.benjamin538.modPackage.Package;
 
 // picocli
 import picocli.CommandLine;
@@ -28,7 +29,8 @@ import picocli.CommandLine.HelpCommand;
         Project.class,
         picocli.AutoComplete.GenerateCompletion.class,
         Index.class,
-        Build.class
+        Build.class,
+        Package.class
     },
     version = "geode 3.2.0",
     mixinStandardHelpOptions = true

@@ -66,16 +66,6 @@ public class IndexLogin implements Runnable {
             if (response.statusCode() != 200) {
                 logger.fatal("Unable to connect to Geode Index");
             }
-/*
-{
-  "payload": {
-    "code": "code",
-    "interval": 5,
-    "uuid": uuid,
-    "uri": "https://github.com/login/device"
-  },                                                    "error": ""
-}
-*/
             JSONObject json = new JSONObject(response.body()).getJSONObject("payload");
             String code = json.getString("code");
             int interval = json.getInt("interval");
