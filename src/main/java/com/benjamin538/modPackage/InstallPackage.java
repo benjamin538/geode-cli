@@ -2,6 +2,7 @@ package com.benjamin538.modPackage;
 
 // path
 import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.nio.file.Path;
 import java.nio.file.Files;
 
@@ -65,10 +66,7 @@ public class InstallPackage implements Runnable {
                         logger.warn("(Did you installed Geode?");
                         Files.createDirectories(modDir);
                     }
-                    if (Files.exists(path)) {
-                        Files.delete(path);
-                    }
-                    Files.copy(path, Paths.get(gdPath, "geode", "mods", path.getFileName().toString()));
+                    Files.move(path, Paths.get(gdPath, "geode", "mods", path.getFileName().toString()), StandardCopyOption.REPLACE_EXISTING);
                     logger.done("Installed " + path.getFileName().toString());
                 }
             }
