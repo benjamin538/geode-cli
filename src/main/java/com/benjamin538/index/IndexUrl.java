@@ -6,20 +6,9 @@ import com.benjamin538.util.Logging;
 // check file
 import com.benjamin538.util.CheckProfileFile;
 
-// file
-import java.nio.file.Paths;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.io.IOException;
-
 // config
 import com.benjamin538.config.ConfigGet;
 import com.benjamin538.config.ConfigSet;
-import com.benjamin538.config.ConfigPath;
-
-// json
-import org.json.JSONObject;
-import org.json.JSONException;
 
 // picocli
 import picocli.CommandLine.Command;
@@ -38,7 +27,6 @@ public class IndexUrl implements Runnable {
     @Override
     public void run() {
        CheckProfileFile.checkFile();
-       Path path = ConfigPath.path();
        if (url == null) {
             logger.info("Your current index URL is: " + ConfigGet.getIndexUrl());
             return;

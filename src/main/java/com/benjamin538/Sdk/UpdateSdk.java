@@ -10,15 +10,12 @@ import java.io.File;
 import com.benjamin538.LoadingAnim;
 
 // nightly
-import com.benjamin538.config.ConfigGet;
 import com.benjamin538.config.ConfigSet;
 
 // git
 import org.eclipse.jgit.api.Git;
-import org.eclipse.jgit.api.PullCommand;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.Ref;
-import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.storage.file.FileRepositoryBuilder;
 
@@ -41,9 +38,7 @@ public class UpdateSdk implements Runnable {
     public void run() {
         LoadingAnim anim = new LoadingAnim();
         try {
-            if(branch.equals("")) {
-                boolean nightly = ConfigGet.getSdkNightly();
-            } else if(branch.equals("stable")) {
+            if(branch.equals("stable")) {
                 logger.info("Switching to stable");
                 ConfigSet.setSdkNightly(false);
             } else if(branch.equals("nightly")) {

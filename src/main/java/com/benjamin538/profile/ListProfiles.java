@@ -15,7 +15,6 @@ import com.benjamin538.config.ConfigPath;
 // file stuff
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 
 // picocli
 import picocli.CommandLine.Command;

@@ -3,7 +3,6 @@ package com.benjamin538.profile;
 // file stuff
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 
 // json
 import org.json.JSONObject;

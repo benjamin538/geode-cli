@@ -3,7 +3,6 @@ package com.benjamin538.config;
 import java.io.IOException;
 // file stuff
 import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.nio.file.Path;
 
 // json
