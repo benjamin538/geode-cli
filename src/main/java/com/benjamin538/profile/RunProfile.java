@@ -90,6 +90,7 @@ public class RunProfile implements Runnable {
         ProcessBuilder builder = new ProcessBuilder(args);
         Process process = builder.start();
         if (!background) {
+            builder.inheritIO();
             process.waitFor();
         }
         if (stay) {
