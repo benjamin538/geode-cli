@@ -65,6 +65,9 @@ public class InstallPackage implements Runnable {
                         logger.warn("(Did you installed Geode?");
                         Files.createDirectories(modDir);
                     }
+                    if (Files.exists(path)) {
+                        Files.delete(path);
+                    }
                     Files.copy(path, Paths.get(gdPath, "geode", "mods", path.getFileName().toString()));
                     logger.done("Installed " + path.getFileName().toString());
                 }

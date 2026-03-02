@@ -54,6 +54,7 @@
     <profile>
       <id>native</id>
       <build>
+        <directory>${basedir}/output</directory>
         <plugins>
           <plugin>
             <groupId>org.graalvm.buildtools</groupId>

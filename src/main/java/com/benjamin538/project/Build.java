@@ -174,7 +174,7 @@ public class Build implements Runnable {
                 Process cmake = builder.start();
                 int status = cmake.waitFor();
                 if(status != 0) {
-                    logger.fatal("CMkae returned code " + status);
+                    logger.fatal("CMake returned code " + status);
                 }
             } catch(Exception ex) {
                 logger.fatal("Failed to run CMake: " + ex.getMessage());
