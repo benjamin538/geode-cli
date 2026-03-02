@@ -9,7 +9,8 @@ import picocli.CommandLine.Option;
     name = "package",
     description = "Options for working with .geode packages",
     subcommands = {
-        InstallPackage.class
+        InstallPackage.class,
+        ZipPackage.class
     }
 )
 public class Package implements Runnable {

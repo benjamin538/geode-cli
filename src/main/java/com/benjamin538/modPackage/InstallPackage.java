@@ -31,13 +31,17 @@ import picocli.CommandLine.Parameters;
     description = "Install a .geode package to the current profile"
 )
 public class InstallPackage implements Runnable {
-    private Logging logger = new Logging();
+    private static Logging logger = new Logging();
     @Option(names = {"-h", "--help"}, description = "Print help", usageHelp = true)
     boolean help;
     @Parameters(description = "Location of the .geode package to install")
     Path path;
     @Override
     public void run() {
+        installPackage(path);
+    }
+
+    public static void installPackage(Path path) {
         CheckProfileFile.checkFile();
         String current = CurrentDeveloper.get();
         if(current.equals("")) {
