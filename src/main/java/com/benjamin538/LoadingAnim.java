@@ -26,7 +26,7 @@ public class LoadingAnim implements Runnable{
     }
 
     public void stop() {
-        System.out.print("\r");
+        System.out.print("\r            \r");
         running = false;
     }
 }

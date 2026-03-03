@@ -14,6 +14,7 @@ import org.jline.terminal.Terminal;
 import org.jline.terminal.TerminalBuilder;
 import org.jline.consoleui.prompt.builder.PromptBuilder;
 import org.jline.consoleui.prompt.ConsolePrompt;
+import org.jline.utils.InfoCmp.Capability;
 
 // json
 import org.json.JSONObject;
@@ -50,6 +51,8 @@ public class CreateMod implements Runnable {
             // init shit
             Terminal terminal = TerminalBuilder.builder().system(true).build();
             ConsolePrompt prompt = new ConsolePrompt(terminal);
+            terminal.puts(Capability.cursor_invisible);
+            terminal.flush();
 
             // list
             PromptBuilder builder = prompt.getPromptBuilder();
@@ -63,6 +66,8 @@ public class CreateMod implements Runnable {
             // building
             Map<String, org.jline.consoleui.prompt.PromptResultItemIF> result = prompt.prompt(builder.build());
             String selected = result.get("templateMenu").getResult();
+            terminal.puts(Capability.cursor_visible);
+            terminal.flush();
             // gettin info
             String name = logger.askValue("Name", null, true);
             String version = logger.askValue("Version", "v1.0.0", false);
