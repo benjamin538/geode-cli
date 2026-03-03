@@ -88,7 +88,7 @@ public class IndexInstall implements Runnable {
                             byte[] data = Files.readAllBytes(modFile);
                             byte[] hash = MessageDigest.getInstance("SHA-256").digest(data);
                             String localHash = String.format("%064x", new BigInteger(1, hash));
-                            if (modHash != localHash) {
+                            if (!modHash.equals(localHash)) {
                                 Files.delete(modFile);
                                 logger.fatal("Downloaded file doesn't match expected hash\n" + modHash + "\nvs\n" + localHash + "\nTry again, if this issue persists, open issue on GitHub:\nhttps://github.com/benjamin538/geode-cli/issues/new");
                             }

@@ -35,7 +35,11 @@ import picocli.CommandLine.HelpCommand;
     version = "geode 3.2.0",
     mixinStandardHelpOptions = true
 )
-public class Main {
+public class Main implements Runnable {
+    @Override
+    public void run() {
+        CommandLine.usage(this, System.out);
+    }
     public static void main(String[] args) {
         new CommandLine(new Main()).execute(args);
     }
