@@ -32,7 +32,7 @@ import picocli.CommandLine.HelpCommand;
         Build.class,
         Package.class
     },
-    version = "geode 3.2.0",
+    version = "geode 3.5.0",
     mixinStandardHelpOptions = true
 )
 public class Main implements Runnable {
