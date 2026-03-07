@@ -33,7 +33,7 @@ jobs:
           version: 'latest'
 
       - name: build w/ maven
-        run: mvn package -Pnative
+        run: mvn clean package -Pnative
 
       - name: rename files
         run: mv target/${{ matrix.file }} target/geode-${{ matrix.suffix }}
