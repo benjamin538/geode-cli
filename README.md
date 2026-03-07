@@ -18,6 +18,20 @@ basically, its a [geode cli](https://github.com/geode-sdk/cli) with some feature
 
 and yes, it doesnt run on macos
 
+## build
+
+easy, look
+
+```bash
+mvn clean package # ensure you have maven installed
+```
+
+if you want .exe:
+
+```bash
+mvn clean package -Pnative # ensure you have maven and native-image installed
+```
+
 ## faq
 
 **first question:**
