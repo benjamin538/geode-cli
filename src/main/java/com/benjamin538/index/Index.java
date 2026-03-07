@@ -11,7 +11,8 @@ import picocli.CommandLine.Option;
     subcommands = {
         IndexUrl.class,
         IndexLogin.class,
-        IndexInstall.class
+        IndexInstall.class,
+        IndexInvalidate.class
     }
 )
 public class Index implements Runnable {
