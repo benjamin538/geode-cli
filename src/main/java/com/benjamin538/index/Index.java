@@ -12,7 +12,8 @@ import picocli.CommandLine.Option;
         IndexUrl.class,
         IndexLogin.class,
         IndexInstall.class,
-        IndexInvalidate.class
+        IndexInvalidate.class,
+        IndexProfile.class
     }
 )
 public class Index implements Runnable {
