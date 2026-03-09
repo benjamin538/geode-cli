@@ -1,5 +1,5 @@
 > [!WARNING]
-> **THIS CLI IS IN VERY VERY ALPHA!!!**
+> **THIS CLI IS IN VERY ALPHA!!!**
 
 # geode cli (java port)
 
@@ -9,22 +9,54 @@ or how hiimjasmine000 say:
 
 basically, its a [geode cli](https://github.com/geode-sdk/cli) with some features like:
 
-- less dependencies than original (im not compile allat)
+- not rust
+- less dependencies than original (im not compile all 388)
 - non crashing mod.json replacements
 - doesnt have stupid decisions like [this](https://github.com/geode-sdk/cli/pull/147)
 - offline templates
 - (almost) fully compatible with original cli
+- loading animations
+- cache
 - and some other cool features
 
-and yes, it doesnt run on macos
+> [!NOTE]
+> NOT tested on MacOS
+
+## build
+
+easy, look
+
+```bash
+mvn clean package # ensure you have maven installed
+```
+
+you will get a 5mb jar
+
+if you want .exe:
+
+```bash
+mvn clean package -Pnative # ensure you have maven and native-image installed
+```
+
+.exe is 35mb
 
 ## faq
 
-**first question:**
+**Q:** "yo, i dont want to copy+paste imports and other stuff for new command, is there any solution?"
+
+**A:** yes, [right here](https://github.com/benjamin538/commandgen)
+
+**Q:** "i want to contribute! can i make an pull request / open issue"
+
+**A:** ofc you can, i will be very happy
+
+now to my favorite questions
+
+**Q:**
 
 <img src="screenshots/whyarewerewriting.png">
 
-because original cli is broken asf, look
+**A:** because original cli is broken asf, look
 
 <img src="screenshots/aldi.png">
 
@@ -33,12 +65,8 @@ because original cli is broken asf, look
 and something like this:
 <img src="screenshots/switch.png">
 
-**next question:**
+**Q:**
 
 <img src="screenshots/dislikebutton.png">
 
-no, but you can send pull request where every file deleted or make a fork and delete everything
-
-**third question**:
-
-"cli looks awesome, can i make an amazing pull request that wont be accepted for 8 months?" - yes, you can
+**A:** no, but you can send pull request where every file deleted or make a fork and delete everything
