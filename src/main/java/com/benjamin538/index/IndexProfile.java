@@ -6,6 +6,12 @@ import com.benjamin538.LoadingAnim;
 // config
 import com.benjamin538.config.ConfigGet;
 
+// mods
+import com.benjamin538.index.mods.GetMods;
+
+// developer
+import com.benjamin538.index.mods.Developer;
+
 // logging
 import com.benjamin538.util.Logging;
 
@@ -60,14 +66,17 @@ public class IndexProfile implements Runnable {
                 profile = new JSONObject(Files.readString(tempPath));
             }
             String username = profile.getString("username");
+            int id = profile.getInt("id");
             String displayName = profile.getString("display_name");
             boolean isVerified = profile.getBoolean("verified");
             boolean isAdmin = profile.getBoolean("admin");
+            Developer dev = new Developer(username, displayName, id, isVerified, isAdmin);
             anim.stop();
             while (true) {
-                Files.write(tempPath, profile.toString().getBytes());
+                Files.write(tempPath, dev.exportJSON().toString().getBytes());
                 logger.clearTerminal();
                 System.out.println("Your profile:");
+                System.out.println("---------------");
                 System.out.println("Username: " + username);
                 System.out.println("Display name: " + displayName);
                 if (!isVerified) {
@@ -79,7 +88,8 @@ public class IndexProfile implements Runnable {
                 }
                 System.out.println("Admin");
                 System.out.println("---------------");
-                System.out.println("Actions:\n1.Change display name");
+                System.out.println("Actions:\n1.Change display name\n2.View your pending mods\n3.View your published mods");
+                System.out.println("---------------");
                 String action = logger.askValue("Type action (q to exit)", "", true);
                 if (action.toLowerCase().equals("q")) break;
                 try {
@@ -90,8 +100,15 @@ public class IndexProfile implements Runnable {
                             HttpRequest nameRequest = HttpRequest.newBuilder().uri(URI.create(ConfigGet.getIndexUrl() + "/v1/me")).PUT(HttpRequest.BodyPublishers.ofString("{\"display_name\": \"" + newName + "\"}")).header("User-Agent", "GeodeCLI").header("Authorization", "Bearer " + ConfigGet.getIndexToken()).header("Content-Type", "application/json").build();
                             HttpResponse<String> nameResponse = client.send(nameRequest, HttpResponse.BodyHandlers.ofString());
                             if (nameResponse.statusCode() != 200) logger.fatal("Unable to change name: status code " + nameResponse.statusCode());
-                            profile.put("display_name", newName);
+                            dev.setDisplayName(newName);
                             logger.done("Changed display name to " + newName);
+                            Thread.sleep(1500);
+                            break;
+                        case 2:
+                            GetMods.getMods(client, logger, false);
+                            break;
+                        case 3:
+                            GetMods.getMods(client, logger, true);
                             break;
                         default:
                             logger.warn("Wrong action");
