@@ -1,6 +1,3 @@
-> [!WARNING]
-> **THIS CLI IS IN VERY ALPHA!!!**
-
 # geode cli (java port)
 
 or how hiimjasmine000 say:
