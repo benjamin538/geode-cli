@@ -38,7 +38,7 @@ public abstract class GetMods {
                 if (!(Instant.now().getEpochSecond() > new JSONObject(Files.readString(tempPath)).getInt("expires_in"))) {
                     responseJSON = new JSONObject(Files.readString(tempPath)).getJSONArray("payload");
                 } else {
-                    HttpRequest request = HttpRequest.newBuilder().uri(URI.create(ConfigGet.getIndexUrl() + "/v1/me/mods")).GET().header("User-Agent", "GeodeCLI").header("Authorization", "Bearer " + ConfigGet.getIndexToken()).build();
+                    HttpRequest request = HttpRequest.newBuilder().uri(URI.create(ConfigGet.getIndexUrl() + "/v1/me/mods?status=" + status)).GET().header("User-Agent", "GeodeCLI").header("Authorization", "Bearer " + ConfigGet.getIndexToken()).build();
                     HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
                     responseJSON = new JSONObject(response.body()).getJSONArray("payload");
                 }
