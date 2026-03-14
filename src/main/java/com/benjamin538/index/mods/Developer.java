@@ -18,6 +18,14 @@ public class Developer {
         this.admin = admin;
     }
 
+    public Developer(JSONObject json) {
+        this.username = json.getString("username");
+        this.displayName = json.getString("display_name");
+        this.id = json.getInt("id");
+        this.verified = json.getBoolean("verified");
+        this.admin = json.getBoolean("admin");
+    }
+
     public String getUsername() {
         return username;
     }

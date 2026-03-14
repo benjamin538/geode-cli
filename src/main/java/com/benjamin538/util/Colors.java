@@ -1,6 +1,7 @@
 package com.benjamin538.util;
 
 public class Colors {
+    public final static String BOLD = "\u001B[1m";
     public final static String BRIGHT_CYAN = "\u001B[96m";
     public final static String BRIGHT_RED = "\u001B[91m";
     public final static String BRIGHT_YELLOW = "\u001B[93m";

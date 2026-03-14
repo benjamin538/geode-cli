@@ -16,11 +16,18 @@ public class ModDeveloper {
         this.isOwner = isOwner; 
     }
 
+    public ModDeveloper(JSONObject json) {
+        this.username = json.getString("username");
+        this.displayName = json.getString("display_name");
+        this.id = json.getInt("id");
+        this.isOwner = json.getBoolean("is_owner"); 
+    }
+
     public String getUsername() {
         return username;
     }
 
-    public String displayName() {
+    public String getDisplayName() {
         return displayName;
     }
 
