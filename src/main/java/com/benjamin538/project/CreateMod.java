@@ -135,7 +135,7 @@ public class CreateMod implements Runnable {
                 Files.write(cmake, Files.readString(cmake).replaceAll(cmake_regex, "").getBytes());
                 Files.write(cpp, Files.readString(cpp).replaceAll(cpp_regex, "").getBytes());
             }
-            logger.info("Created project \"" + name + "\".");
+            logger.done("Created project \"" + name + "\".");
             if (sdkVersion.equals("")) {
                 logger.warn("Since program cant find GEODE_SDK, version of SDK in mod.json is set to an empty string. Change this field after installing SDK.");
             }

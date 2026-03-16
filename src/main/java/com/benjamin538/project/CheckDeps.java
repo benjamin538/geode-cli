@@ -77,7 +77,8 @@ public class CheckDeps implements Runnable {
         try {
             dependencies = modJSON.getJSONObject("dependencies");
         } catch(JSONException ex) {
-            logger.fatal("Dependencies not found");
+            logger.info("No dependencies to download");
+            return;
         }
         if (modJSON.has("gd")) {
             if (modJSON.get("gd") instanceof JSONObject) {
