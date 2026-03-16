@@ -6,7 +6,7 @@
 
     <groupId>com.benjamin538</groupId>
     <artifactId>geode</artifactId>
-    <version>0.4</version>
+    <version>1.0</version>
     <profiles>
       <profile>
         <id>native</id>
