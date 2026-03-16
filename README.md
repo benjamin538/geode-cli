@@ -1,6 +1,3 @@
-> [!WARNING]
-> **THIS CLI IS IN VERY ALPHA!!!**
-
 # geode cli (java port)
 
 or how hiimjasmine000 say:
@@ -70,3 +67,25 @@ and something like this:
 <img src="screenshots/dislikebutton.png">
 
 **A:** no, but you can send pull request where every file deleted or make a fork and delete everything
+
+**Q:**
+
+<img src="screenshots/javaisabadlang.png">
+
+**A:** and nobody said that java is a bad lang
+
+**Q:**
+
+<img src="screenshots/evolvingbackwards.png">
+
+**A:** who is devolving
+
+<img src="screenshots/comingnotsoon.png">
+
+<img src="screenshots/print.png">
+
+<img src="screenshots/somanycommands.png">
+
+<img src="screenshots/unwrapunwrap.png">
+
+<img src="screenshots/todo.png">
